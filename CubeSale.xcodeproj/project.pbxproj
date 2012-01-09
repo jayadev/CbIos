@@ -1,0 +1,316 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C9BB145014BA724F009D3499 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9BB144F14BA724F009D3499 /* UIKit.framework */; };
+		C9BB145214BA724F009D3499 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9BB145114BA724F009D3499 /* Foundation.framework */; };
+		C9BB145414BA724F009D3499 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9BB145314BA724F009D3499 /* CoreGraphics.framework */; };
+		C9BB145A14BA724F009D3499 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9BB145814BA724F009D3499 /* InfoPlist.strings */; };
+		C9BB145C14BA724F009D3499 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9BB145B14BA724F009D3499 /* main.m */; };
+		C9BB146014BA724F009D3499 /* QSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C9BB145F14BA724F009D3499 /* QSAppDelegate.m */; };
+		C9BB146314BA724F009D3499 /* QSFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9BB146214BA724F009D3499 /* QSFirstViewController.m */; };
+		C9BB146514BA724F009D3499 /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = C9BB146414BA724F009D3499 /* first.png */; };
+		C9BB146714BA724F009D3499 /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9BB146614BA724F009D3499 /* first@2x.png */; };
+		C9BB146A14BA724F009D3499 /* QSSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9BB146914BA724F009D3499 /* QSSecondViewController.m */; };
+		C9BB146C14BA724F009D3499 /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = C9BB146B14BA724F009D3499 /* second.png */; };
+		C9BB146E14BA724F009D3499 /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9BB146D14BA724F009D3499 /* second@2x.png */; };
+		C9BB147114BA724F009D3499 /* QSFirstViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BB146F14BA724F009D3499 /* QSFirstViewController.xib */; };
+		C9BB147414BA724F009D3499 /* QSSecondViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BB147214BA724F009D3499 /* QSSecondViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C9BB144B14BA724F009D3499 /* CubeSale.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CubeSale.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9BB144F14BA724F009D3499 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		C9BB145114BA724F009D3499 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C9BB145314BA724F009D3499 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		C9BB145714BA724F009D3499 /* CubeSale-Info.plist */ = {isa = PBXFileReference; path = "CubeSale-Info.plist"; sourceTree = "<group>"; };
+		C9BB145914BA724F009D3499 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C9BB145B14BA724F009D3499 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C9BB145D14BA724F009D3499 /* CubeSale-Prefix.pch */ = {isa = PBXFileReference; path = "CubeSale-Prefix.pch"; sourceTree = "<group>"; };
+		C9BB145E14BA724F009D3499 /* QSAppDelegate.h */ = {isa = PBXFileReference; path = QSAppDelegate.h; sourceTree = "<group>"; };
+		C9BB145F14BA724F009D3499 /* QSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QSAppDelegate.m; sourceTree = "<group>"; };
+		C9BB146114BA724F009D3499 /* QSFirstViewController.h */ = {isa = PBXFileReference; path = QSFirstViewController.h; sourceTree = "<group>"; };
+		C9BB146214BA724F009D3499 /* QSFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QSFirstViewController.m; sourceTree = "<group>"; };
+		C9BB146414BA724F009D3499 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
+		C9BB146614BA724F009D3499 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
+		C9BB146814BA724F009D3499 /* QSSecondViewController.h */ = {isa = PBXFileReference; path = QSSecondViewController.h; sourceTree = "<group>"; };
+		C9BB146914BA724F009D3499 /* QSSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QSSecondViewController.m; sourceTree = "<group>"; };
+		C9BB146B14BA724F009D3499 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
+		C9BB146D14BA724F009D3499 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+		C9BB147014BA724F009D3499 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/QSFirstViewController.xib; sourceTree = "<group>"; };
+		C9BB147314BA724F009D3499 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/QSSecondViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C9BB144814BA724F009D3499 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9BB145014BA724F009D3499 /* UIKit.framework in Frameworks */,
+				C9BB145214BA724F009D3499 /* Foundation.framework in Frameworks */,
+				C9BB145414BA724F009D3499 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C9BB144014BA724F009D3499 = {
+			isa = PBXGroup;
+			children = (
+				C9BB145514BA724F009D3499 /* CubeSale */,
+				C9BB144E14BA724F009D3499 /* Frameworks */,
+				C9BB144C14BA724F009D3499 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C9BB144C14BA724F009D3499 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C9BB144B14BA724F009D3499 /* CubeSale.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C9BB144E14BA724F009D3499 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C9BB144F14BA724F009D3499 /* UIKit.framework */,
+				C9BB145114BA724F009D3499 /* Foundation.framework */,
+				C9BB145314BA724F009D3499 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C9BB145514BA724F009D3499 /* CubeSale */ = {
+			isa = PBXGroup;
+			children = (
+				C9BB145E14BA724F009D3499 /* QSAppDelegate.h */,
+				C9BB145F14BA724F009D3499 /* QSAppDelegate.m */,
+				C9BB146114BA724F009D3499 /* QSFirstViewController.h */,
+				C9BB146214BA724F009D3499 /* QSFirstViewController.m */,
+				C9BB146414BA724F009D3499 /* first.png */,
+				C9BB146614BA724F009D3499 /* first@2x.png */,
+				C9BB146814BA724F009D3499 /* QSSecondViewController.h */,
+				C9BB146914BA724F009D3499 /* QSSecondViewController.m */,
+				C9BB146B14BA724F009D3499 /* second.png */,
+				C9BB146D14BA724F009D3499 /* second@2x.png */,
+				C9BB146F14BA724F009D3499 /* QSFirstViewController.xib */,
+				C9BB147214BA724F009D3499 /* QSSecondViewController.xib */,
+				C9BB145614BA724F009D3499 /* Supporting Files */,
+			);
+			path = CubeSale;
+			sourceTree = "<group>";
+		};
+		C9BB145614BA724F009D3499 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C9BB145714BA724F009D3499 /* CubeSale-Info.plist */,
+				C9BB145814BA724F009D3499 /* InfoPlist.strings */,
+				C9BB145B14BA724F009D3499 /* main.m */,
+				C9BB145D14BA724F009D3499 /* CubeSale-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C9BB144A14BA724F009D3499 /* CubeSale */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9BB147714BA724F009D3499 /* Build configuration list for PBXNativeTarget "CubeSale" */;
+			buildPhases = (
+				C9BB144714BA724F009D3499 /* Sources */,
+				C9BB144814BA724F009D3499 /* Frameworks */,
+				C9BB144914BA724F009D3499 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CubeSale;
+			productName = CubeSale;
+			productReference = C9BB144B14BA724F009D3499 /* CubeSale.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C9BB144214BA724F009D3499 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = None;
+			};
+			buildConfigurationList = C9BB144514BA724F009D3499 /* Build configuration list for PBXProject "CubeSale" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C9BB144014BA724F009D3499;
+			productRefGroup = C9BB144C14BA724F009D3499 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C9BB144A14BA724F009D3499 /* CubeSale */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C9BB144914BA724F009D3499 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9BB145A14BA724F009D3499 /* InfoPlist.strings in Resources */,
+				C9BB146514BA724F009D3499 /* first.png in Resources */,
+				C9BB146714BA724F009D3499 /* first@2x.png in Resources */,
+				C9BB146C14BA724F009D3499 /* second.png in Resources */,
+				C9BB146E14BA724F009D3499 /* second@2x.png in Resources */,
+				C9BB147114BA724F009D3499 /* QSFirstViewController.xib in Resources */,
+				C9BB147414BA724F009D3499 /* QSSecondViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C9BB144714BA724F009D3499 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9BB145C14BA724F009D3499 /* main.m in Sources */,
+				C9BB146014BA724F009D3499 /* QSAppDelegate.m in Sources */,
+				C9BB146314BA724F009D3499 /* QSFirstViewController.m in Sources */,
+				C9BB146A14BA724F009D3499 /* QSSecondViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		C9BB145814BA724F009D3499 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C9BB145914BA724F009D3499 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C9BB146F14BA724F009D3499 /* QSFirstViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C9BB147014BA724F009D3499 /* en */,
+			);
+			name = QSFirstViewController.xib;
+			sourceTree = "<group>";
+		};
+		C9BB147214BA724F009D3499 /* QSSecondViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C9BB147314BA724F009D3499 /* en */,
+			);
+			name = QSSecondViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C9BB147514BA724F009D3499 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		C9BB147614BA724F009D3499 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C9BB147814BA724F009D3499 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CubeSale/CubeSale-Prefix.pch";
+				INFOPLIST_FILE = "CubeSale/CubeSale-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C9BB147914BA724F009D3499 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CubeSale/CubeSale-Prefix.pch";
+				INFOPLIST_FILE = "CubeSale/CubeSale-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C9BB144514BA724F009D3499 /* Build configuration list for PBXProject "CubeSale" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9BB147514BA724F009D3499 /* Debug */,
+				C9BB147614BA724F009D3499 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9BB147714BA724F009D3499 /* Build configuration list for PBXNativeTarget "CubeSale" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9BB147814BA724F009D3499 /* Debug */,
+				C9BB147914BA724F009D3499 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C9BB144214BA724F009D3499 /* Project object */;
+}
