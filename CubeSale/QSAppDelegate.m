@@ -8,26 +8,42 @@
 
 #import "QSAppDelegate.h"
 
-#import "QSFirstViewController.h"
+#import "QSRootViewController.h"
+#import "QSProductViewController.h"
+#import "QSPostViewController.h"
+#import "QSPostController.h"
 
-#import "QSSecondViewController.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 @implementation QSAppDelegate
+{
+    QSRootViewController *_root;
+}
 
 @synthesize window = _window;
-@synthesize tabBarController = _tabBarController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    NSLog(@"application launched");
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    UIViewController *viewController1 = [[QSFirstViewController alloc] initWithNibName:@"QSFirstViewController" bundle:nil];
-    UIViewController *viewController2 = [[QSSecondViewController alloc] initWithNibName:@"QSSecondViewController" bundle:nil];
-    self.tabBarController = [[UITabBarController alloc] init];
-    self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2, nil];
-    self.window.rootViewController = self.tabBarController;
+    
+    _root = [[QSRootViewController alloc] initWithNibName:@"QSRootViewController" bundle:NULL];
+    self.window.rootViewController = _root;
+    
     [self.window makeKeyAndVisible];
+    
     return YES;
+}
+
+- (BOOL)application:(UIApplication *)application
+        openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication
+        annotation:(id)annotation
+{
+    NSLog(@"application::openURL: %@ from %@", url, sourceApplication);
+    
+    return [FBSession.activeSession handleOpenURL:url];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -36,6 +52,7 @@
      Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
      Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
      */
+    [_root onStop];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -44,6 +61,7 @@
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
      If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
+    
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -55,9 +73,11 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    NSLog(@"applicationDidBecomeActive");
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
+    [_root onStart];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -68,19 +88,5 @@
      See also applicationDidEnterBackground:.
      */
 }
-
-/*
-// Optional UITabBarControllerDelegate method.
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
-{
-}
-*/
-
-/*
-// Optional UITabBarControllerDelegate method.
-- (void)tabBarController:(UITabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed
-{
-}
-*/
 
 @end

@@ -8,10 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSAppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate>
+@interface QSAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
-@property (strong, nonatomic) UITabBarController *tabBarController;
 
 @end
