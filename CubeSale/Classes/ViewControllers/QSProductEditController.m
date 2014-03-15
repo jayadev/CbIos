@@ -112,7 +112,7 @@ UIImage *scaleImage(UIImage *image);
 
 - (IBAction) btnEditImage:(id)sender
 {
-    [_controller onPostEditImage];
+        //[_controller onPostEditImage];
 }
 
 - (IBAction) btnCancel:(id) sender

@@ -131,7 +131,7 @@
     NSDictionary *response = [responseBody objectFromJSONString];
     NSLog(@"response: %@", response);
     
-    [QSUtil showAlert:@"Your message has been delivered!"];
+        // [QSUtil showAlert:@"Your message has been delivered!"];
     
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -141,7 +141,7 @@
     NSLog(@"%@",[error description]);
     
     NSString *message = [NSString stringWithFormat:@"Failed to deliver the message. Error: %@", [error description]];
-    [QSUtil showAlert:message];
+        // [QSUtil showAlert:message];
 }
 
 - (IBAction) btnCancel:(id) sender
