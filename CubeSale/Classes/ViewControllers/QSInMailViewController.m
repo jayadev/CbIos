@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 None. All rights reserved.
 //
 
-#import "SBJson.h"
-#import "OAuthLoginView.h"
+//#import "SBJson.h"
+//#import "OAuthLoginView.h"
 #import "QSUtil.h"
 #import "QSInMailViewController.h"
 #import "QSLoginController.h"
@@ -79,70 +79,70 @@
         return;
     }
     
-    OAConsumer *consumer = [OAuthLoginView getConsumer];
-    OAToken *token = [QSLoginController getToken];
-
-    NSURL *url = [NSURL URLWithString:@"http://api.linkedin.com/v1/people/~/mailbox"];
-    OAMutableURLRequest *request = 
-    [[OAMutableURLRequest alloc] initWithURL:url
-                                    consumer:consumer
-                                       token:token
-                                    callback:nil
-                           signatureProvider:nil];
-
-    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
-    //[request setHTTPShouldHandleCookies:NO];
-    [request setTimeoutInterval:30];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:@"json" forHTTPHeaderField:@"x-li-format"];
-    
-    NSString *cuserid = (NSString *)[_item valueForKey:@"email"];
-    NSString *people = [NSString stringWithFormat:@"/people/%@", cuserid];
-    NSDictionary *person = [NSDictionary dictionaryWithObjectsAndKeys:
-                            people, @"_path", nil];
-    NSDictionary *recp = [NSDictionary dictionaryWithObjectsAndKeys:
-                            person, @"person", nil];
-    NSArray *values = [NSArray arrayWithObject:recp];
-    NSDictionary *recps = [NSDictionary dictionaryWithObjectsAndKeys:
-                          values, @"values", nil];
-
-    NSDictionary *messageParams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   textSubject.text, @"subject",
-                                   textBody.text, @"body", 
-                                   recps, @"recipients", nil];
-    
-    NSString *message = [messageParams JSONRepresentation];    
-    //[request setHTTPBody:[message dataUsingEncoding:NSUTF8StringEncoding]];
-    [request setHTTPBodyWithString:message];
-    
-    OADataFetcher *fetcher = [[OADataFetcher alloc] init];
-    [fetcher fetchDataWithRequest:request delegate:self
-                didFinishSelector:@selector(inmailApiCallResult:didFinish:)
-                didFailSelector:@selector(inmailApiCallResult:didFail:)];    
+//    OAConsumer *consumer = [OAuthLoginView getConsumer];
+//    OAToken *token = [QSLoginController getToken];
+//
+//    NSURL *url = [NSURL URLWithString:@"http://api.linkedin.com/v1/people/~/mailbox"];
+//    OAMutableURLRequest *request = 
+//    [[OAMutableURLRequest alloc] initWithURL:url
+//                                    consumer:consumer
+//                                       token:token
+//                                    callback:nil
+//                           signatureProvider:nil];
+//
+//    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+//    //[request setHTTPShouldHandleCookies:NO];
+//    [request setTimeoutInterval:30];
+//    [request setHTTPMethod:@"POST"];
+//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//    [request setValue:@"json" forHTTPHeaderField:@"x-li-format"];
+//    
+//    NSString *cuserid = (NSString *)[_item valueForKey:@"email"];
+//    NSString *people = [NSString stringWithFormat:@"/people/%@", cuserid];
+//    NSDictionary *person = [NSDictionary dictionaryWithObjectsAndKeys:
+//                            people, @"_path", nil];
+//    NSDictionary *recp = [NSDictionary dictionaryWithObjectsAndKeys:
+//                            person, @"person", nil];
+//    NSArray *values = [NSArray arrayWithObject:recp];
+//    NSDictionary *recps = [NSDictionary dictionaryWithObjectsAndKeys:
+//                          values, @"values", nil];
+//
+//    NSDictionary *messageParams = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                   textSubject.text, @"subject",
+//                                   textBody.text, @"body", 
+//                                   recps, @"recipients", nil];
+//    
+//    NSString *message = [messageParams JSONRepresentation];    
+//    //[request setHTTPBody:[message dataUsingEncoding:NSUTF8StringEncoding]];
+//    [request setHTTPBodyWithString:message];
+//    
+//    OADataFetcher *fetcher = [[OADataFetcher alloc] init];
+//    [fetcher fetchDataWithRequest:request delegate:self
+//                didFinishSelector:@selector(inmailApiCallResult:didFinish:)
+//                didFailSelector:@selector(inmailApiCallResult:didFail:)];    
 }
 
-- (void)inmailApiCallResult:(OAServiceTicket *)ticket didFinish:(NSData *)data 
-{
-    NSString *responseBody = [[NSString alloc] initWithData:data
-                                                   encoding:NSUTF8StringEncoding];
-    
-    NSLog(@"response body: %@", responseBody);
-    NSDictionary *response = [responseBody objectFromJSONString];
-    NSLog(@"response: %@", response);
-    
-        // [QSUtil showAlert:@"Your message has been delivered!"];
-    
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)inmailApiCallResult:(OAServiceTicket *)ticket didFail:(NSData *)error 
-{
-    NSLog(@"%@",[error description]);
-    
-    NSString *message = [NSString stringWithFormat:@"Failed to deliver the message. Error: %@", [error description]];
-        // [QSUtil showAlert:message];
-}
+//- (void)inmailApiCallResult:(OAServiceTicket *)ticket didFinish:(NSData *)data 
+//{
+//    NSString *responseBody = [[NSString alloc] initWithData:data
+//                                                   encoding:NSUTF8StringEncoding];
+//    
+//    NSLog(@"response body: %@", responseBody);
+//    NSDictionary *response = [responseBody objectFromJSONString];
+//    NSLog(@"response: %@", response);
+//    
+//        // [QSUtil showAlert:@"Your message has been delivered!"];
+//    
+//    [self.navigationController popViewControllerAnimated:YES];
+//}
+//
+//- (void)inmailApiCallResult:(OAServiceTicket *)ticket didFail:(NSData *)error 
+//{
+//    NSLog(@"%@",[error description]);
+//    
+//    NSString *message = [NSString stringWithFormat:@"Failed to deliver the message. Error: %@", [error description]];
+//        // [QSUtil showAlert:message];
+//}
 
 - (IBAction) btnCancel:(id) sender
 {

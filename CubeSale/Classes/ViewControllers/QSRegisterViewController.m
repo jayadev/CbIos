@@ -284,18 +284,18 @@
         return;
     }
     
-    if(_ccode.length == 0) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please enter your work location"
-                                                        message:nil
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
-        return;        
-    }
+//    if(_ccode.length == 0) {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please enter your work location"
+//                                                        message:nil
+//                                                       delegate:nil
+//                                              cancelButtonTitle:@"OK"
+//                                              otherButtonTitles:nil];
+//        [alert show];
+//        return;        
+//    }
     
     bool consent = !consentButton.hidden;
-    [_controller onRegisterDone:emailView.text :companyEmailView.text :_zip :_city :_ccode :hobbyView.text :consent];
+    [_controller onRegisterDone:emailView.text :companyEmailView.text :_zip :_city :@"bangalore" :hobbyView.text :consent];
 }
 
 - (IBAction) btnLocation:(id) sender
@@ -326,6 +326,86 @@
     _ccode = ccode;
     
     locationView.text = [NSString stringWithFormat:@"%@, %@", _city, _zip];
+}
+
++ (QSHttpClient *) postRegistration:(NSString *)email :(NSString *)companyEmail :(NSString *)zip :(NSString *)city :(NSString *)ccode :(NSString *)hobby :(bool)update :(bool)consent :(UIViewController *)parent :(id <QSHttpClientDelegate>)delegate
+{
+    s_email = email;
+    s_companyEmail = companyEmail;
+    s_companyZip = zip;
+    s_companyCity = city;
+    s_companyCcode = ccode;
+    s_location = [NSString stringWithFormat:@"%@, %@", city, zip];
+    s_hobby = hobby;
+    
+        // create request
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+    [request setHTTPShouldHandleCookies:NO];
+    [request setTimeoutInterval:30];
+    [request setHTTPMethod:@"POST"];
+    
+    NSString *bodyString = [NSString stringWithFormat:
+                            @"user_id=%@&email=%@&firstname=%@&lastname=%@&username=%@&img_url=%@&profile_url=%@&hobby=%@&company_email=%@&company_zip=%@&company_city=%@&company_ccode=%@&update=%@&consent=%@",
+                            escapeString(s_userId), escapeString(s_email),
+                            escapeString(s_firstName), escapeString(s_lastName), escapeString(s_formattedName),
+                            escapeString(s_pictureUrl), escapeString(s_profileUrl),
+                            escapeString(s_hobby),
+                            escapeString(s_companyEmail), escapeString(s_companyZip),
+                            escapeString(s_companyCity), escapeString(s_companyCcode),
+                            (update ? @"1" : @"0"), (consent ? @"1" : @"0")];
+    NSLog(@"Submitting registration: %@", bodyString);
+    
+    NSData *body = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
+    [request setHTTPBody:body];
+    NSString *postLength = [NSString stringWithFormat:@"%d", [body length]];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    NSString *apiBase = [QSUtil getApiBase];
+    NSString *url = [NSString stringWithFormat:@"%@/registerUser", apiBase];
+    
+    QSHttpClient *http = [[QSHttpClient alloc] init];
+    http.disableUI = true;
+    [http submitRequest:request :url :parent :delegate :@"" :nil];
+    
+    return http;
+}
+
+- (void) processResponse:(BOOL)success :(NSDictionary *)response :(id)userData
+{
+    if(!success) {
+        return;
+    }
+    
+    _registered = true;
+    
+    [QSLoginController storeUserData];
+    
+    [_controller onLoggedIn];
+}
+
++ (void) storeUserData
+{
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                              s_token, @"token",
+                              s_userId, @"id",
+                              s_email, @"email",
+                              s_firstName, @"first",
+                              s_lastName, @"last",
+                              s_formattedName, @"formatted",
+                              s_profileUrl, @"profileUrl",
+                              s_pictureUrl, @"pictureUrl",
+                              s_companyEmail, @"companyEmail",
+                              s_companyZip, @"companyZip",
+                              s_companyCity, @"companyCity",
+                              s_companyCcode, @"companyCcode",
+                              s_location, @"location",
+                              s_hobby, @"hobby",
+                              nil];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:DATA_VERSION forKey:@"version"];
+    [[NSUserDefaults standardUserDefaults] setObject:userInfo forKey:@"userinfo"];
+    [[NSUserDefaults standardUserDefaults] setObject:s_watchList forKey:@"userwatch"];    
 }
 
 @end

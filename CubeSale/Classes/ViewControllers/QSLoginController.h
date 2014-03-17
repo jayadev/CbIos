@@ -10,7 +10,7 @@
 //#import "OAuthLoginView.h"
 
 #import "QSHttpClient.h"
-#import "QSRootViewController.h"
+//#import "QSRootViewController.h"
 
 enum QSLoginStatus
 {
@@ -18,21 +18,25 @@ enum QSLoginStatus
     QS_NOT_LOGGED_IN = 1
 };
 
+@protocol QSLoginControllerDelegate;
+
 @interface QSLoginController : NSObject
 
-- (QSRootViewController *) getController;
-- (void) setController:(QSRootViewController *)controller;
+@property(nonatomic,weak)id<QSLoginControllerDelegate>delegate;
+
+//- (QSRootViewController *) getController;
+//- (void) setController:(QSRootViewController *)controller;
 
 + (enum QSLoginStatus) autoLogin;
-- (void) start:(UIViewController *)parentView;
+
 
 - (void) doLogin;
-- (void) doRegister;
-- (void) onRegisterDone:(NSString *)email :(NSString *)companyEmail :(NSString *)zip :(NSString *)city :(NSString *)ccode :(NSString *)hobby :(bool)consent;
+//- (void) doRegister;
+//- (void) onRegisterDone:(NSString *)email :(NSString *)companyEmail :(NSString *)zip :(NSString *)city :(NSString *)ccode :(NSString *)hobby :(bool)consent;
+//
+//+ (QSHttpClient *) postRegistration:(NSString *)email :(NSString *)companyEmail :(NSString *)zip :(NSString *)city :(NSString *)ccode :(NSString *)hobby :(bool)update :(bool)consent :(UIViewController *)parent :(id <QSHttpClientDelegate>)delegate;
 
-+ (QSHttpClient *) postRegistration:(NSString *)email :(NSString *)companyEmail :(NSString *)zip :(NSString *)city :(NSString *)ccode :(NSString *)hobby :(bool)update :(bool)consent :(UIViewController *)parent :(id <QSHttpClientDelegate>)delegate;
-
-+ (void) storeUserData;
+    //+ (void) storeUserData;
 + (void) doUnregister:(bool)partial;
 
 + (NSString *) getToken;
@@ -58,5 +62,12 @@ enum QSLoginStatus
 + (void) addUserWatch: (NSDictionary *)item;
 + (void) removeUserWatch: (NSString *)pid;
 + (bool) isInUserWatch: (NSString *)pid;
+
+@end
+
+@protocol QSLoginControllerDelegate <NSObject>
+
+-(void)loginDidComplete;
+-(void)loginDidFail;
 
 @end

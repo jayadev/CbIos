@@ -7,28 +7,44 @@
 //
 
 #import "QSUtil.h"
-#import "QSLoginController.h"
 #import "QSRootViewController.h"
+#import "QSRegisterViewController.h"
 #import "QSListingsViewController.h"
 
-@implementation QSRootViewController
-{
-    QSLoginController *_loginController;
-    
-    UINavigationController *_navController;
-    QSListingsViewController *_listingsController;
-    
-    bool _autoStart;
-    bool _loggedIn;
-}
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+#define TOPVIEW_HEIGHT_STANDARD  44
+#define TOPVIEW_HEIGHT_EXTENDED  76 //29-SEGMENT CONTROL HEIGHT+ 3 PT GAP AFTER SEGMENT CONTROL
+
+@interface QSRootViewController ()
+
+@property (nonatomic, strong)IBOutlet UIView *topView;
+@property (nonatomic, strong)IBOutlet UIView *contentView;
+
+@property (nonatomic, strong)QSRegisterViewController *registerViewCon;
+
+
+@end
+
+
+@implementation QSRootViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        _autoStart = false;
-        _loggedIn = false;
+        BOOL loginStatus = FALSE;
+        if(QS_LOGGED_IN == [QSLoginController autoLogin]) {
+            loginStatus = true;
+        }
+        if(loginStatus) {
+            QSListingsViewController *listViewCon = [[QSListingsViewController alloc] initWithNibName:@"QSListingsViewController" bundle:nil];
+            [self pushViewController:listViewCon];
+        } else {
+            QSLoginViewController *loginViewCon = [[QSLoginViewController alloc] initWithNibName:@"QSLoginViewController" bundle:nil];
+            loginViewCon.delegate = self;
+            [self pushViewController:loginViewCon];
+        }
+        
     }
     return self;
 }
@@ -42,24 +58,16 @@
 }
 
 #pragma mark - View lifecycle
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    NSLog(@"Root::viewDidAppear");
-    
-    if(_autoStart) {
-        _autoStart = false;
-        [self onStart];
-    }
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
 }
-
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -73,71 +81,54 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void) onStart
-{
-    NSLog(@"Root::onStart");
+-(void)pushViewController:(UIViewController*)viewController {
+    [self.view addSubview:viewController.view];
     
-    if(_loginController != nil) {
-        NSLog(@"Login controller is live, noop");
-        return;
-    }
-    
-    if(!_loggedIn) {
-        // auto login
-        if(QS_LOGGED_IN == [QSLoginController autoLogin]) {
-            _loggedIn = true;
-        }
-    }
-    
-    if(_loggedIn) {
-        NSLog(@"Logged in, main app flow");
-        
-        _listingsController = [[QSListingsViewController alloc] initWithNibName:@"QSListingsViewController" bundle:nil];
-        [_listingsController setController:self];
-        
-        _navController = [[UINavigationController alloc] initWithRootViewController:_listingsController];
-        _navController.navigationBarHidden = YES;
-
-        [self presentModalViewController:_navController animated:YES];
-    } else {
-        NSLog(@"Not logged in, login flow");
-
-        _loginController = [[QSLoginController alloc] init];
-        [_loginController setController:self];
-        [_loginController start:self];
-    }
+    [self addChildViewController:viewController];
+    [viewController didMoveToParentViewController:self];
 }
 
-- (void) onStop
-{
+
+
+- (void) onStop {
     NSLog(@"onStop");
-    _loggedIn = false;
-    if(_navController) {
-        [self dismissModalViewControllerAnimated:NO];
-        _navController = nil;
-    }
 }
 
 - (void) onLoggedIn
 {
     NSLog(@"onLoggedIn");
-    [self dismissModalViewControllerAnimated:YES];
-    _loginController = nil;
-    
-    _autoStart = true;
-    _loggedIn = true;
+//    [self dismissModalViewControllerAnimated:YES];
+//    _loginController = nil;
+//    
+//    _autoStart = true;
+//    _loggedIn = true;
 }
 
 - (void) onSignout:(bool)partial
 {
     NSLog(@"onSignout");
     
-    _autoStart = true;
-    _loggedIn = false;
-    
-    [QSLoginController doUnregister:partial];     
-    [self dismissModalViewControllerAnimated:NO];
-    _navController = nil;
+//    _autoStart = true;
+//    _loggedIn = false;
+//    
+//    [QSLoginController doUnregister:partial];     
+//    [self dismissModalViewControllerAnimated:NO];
+//    _navController = nil;
+}
+
+-(void)loginStatus:(BOOL)loginStatus withError:(NSError*)error {
+    if(loginStatus == TRUE) {
+        //remove loginviewcontroller
+//        [self.loginViewCon dismissViewControllerAnimated:NO completion:nil];
+//        self.loginViewCon = nil;
+        
+        //show register viewcontroller
+        self.registerViewCon = [[QSRegisterViewController alloc] initWithNibName:@"QSRegisterViewController" bundle:nil];
+        [self presentViewController:self.registerViewCon animated:YES completion:nil];
+    }
+    else {
+        
+    }
 }
 
 @end

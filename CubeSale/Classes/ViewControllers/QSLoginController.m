@@ -261,48 +261,22 @@ static NSMutableArray *s_watchItems;
     }*/
 }
 
-- (QSRootViewController *) getController
-{
-    return _controller;
-}
-
-- (void) setController:(QSRootViewController *)controller
-{
-    _controller = controller;
-}
+//
+//- (QSRootViewController *) getController
+//{
+//    return _controller;
+//}
+//
+//- (void) setController:(QSRootViewController *)controller
+//{
+//    _controller = controller;
+//}
 
 - (void)dealloc
 {
     NSLog(@"QSLoginController dealloc");
 }
 
-- (void) start:(UIViewController *)parentView
-{
-    UIViewController *loginView = nil;
-
-    QSLoginViewController *connectView = [[QSLoginViewController alloc] initWithNibName:@"QSLoginViewController" bundle:nil];
-    [connectView setController:self];
-    loginView = connectView;
-
-    /*if(nil == s_userId) { // first timer
-        QSLoginViewController *connectView = [[QSLoginViewController alloc] initWithNibName:@"QSLoginViewController" bundle:nil];
-        [connectView setController:self];
-        loginView = connectView;
-    } else {
-        _loginView = [[OAuthLoginView alloc] initWithNibName:nil bundle:nil];
-        
-        // register to be told when the login is finished
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(loginViewDidFinish:) name:@"loginViewDidFinish" object:_loginView];        
-        loginView = _loginView;
-    }*/
-    
-    _navigation = [[UINavigationController alloc] initWithRootViewController:loginView];
-    _navigation.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    _navigation.navigationBarHidden = YES;
-    
-    [parentView presentModalViewController:_navigation animated:YES];
-}
 
 - (void) doLogin
 {
@@ -314,14 +288,6 @@ static NSMutableArray *s_watchItems;
        FBSessionState state, NSError *error) {
          [self sessionStateChanged:session state:state error:error];
      }];
-
-    /*_loginView = [[OAuthLoginView alloc] initWithNibName:nil bundle:nil];
-    
-    // register to be told when the login is finished
-    [[NSNotificationCenter defaultCenter] addObserver:self
-    selector:@selector(loginViewDidFinish:) name:@"loginViewDidFinish" object:_loginView];
-    
-    [_navigation pushViewController:_loginView animated:YES];*/
 }
 
 - (void)sessionStateChanged:(FBSession *)session
@@ -421,18 +387,12 @@ static NSMutableArray *s_watchItems;
         s_hobby = @"";
     }
 
-    [self doRegister];
+    if(self.delegate){
+        [self.delegate loginDidComplete];
+    }
+    //[self doRegister];
 }
 
-- (void) doRegister
-{
-    _registered = false;
-
-    _registerView = [[QSRegisterViewController alloc] initWithNibName:@"QSRegisterViewController" bundle:nil];    
-    [_registerView setController:self];
-
-    [_navigation pushViewController:_registerView animated:YES];    
-}
 
 + (void) doUnregister:(bool)partial
 {
@@ -444,177 +404,17 @@ static NSMutableArray *s_watchItems;
     }
 }
 
-- (void) onRegisterDone:(NSString *)email :(NSString *)companyEmail :(NSString *)zip :(NSString *)city :(NSString *)ccode :(NSString *)hobby :(bool)consent
-{
-    _http = [QSLoginController postRegistration:email :companyEmail :zip :city :ccode :hobby :false :consent :_navigation :self];
-}
+//- (void) onRegisterDone:(NSString *)email :(NSString *)companyEmail :(NSString *)zip :(NSString *)city :(NSString *)ccode :(NSString *)hobby :(bool)consent
+//{
+//        //_http = [QSLoginController postRegistration:email :companyEmail :zip :city :ccode :hobby :false :consent :_navigation :self];
+//}
 
-+ (QSHttpClient *) postRegistration:(NSString *)email :(NSString *)companyEmail :(NSString *)zip :(NSString *)city :(NSString *)ccode :(NSString *)hobby :(bool)update :(bool)consent :(UIViewController *)parent :(id <QSHttpClientDelegate>)delegate
-{
-    s_email = email;
-    s_companyEmail = companyEmail;
-    s_companyZip = zip;
-    s_companyCity = city;
-    s_companyCcode = ccode;
-    s_location = [NSString stringWithFormat:@"%@, %@", city, zip];
-    s_hobby = hobby;
-    
-    // create request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];                                    
-    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
-    [request setHTTPShouldHandleCookies:NO];
-    [request setTimeoutInterval:30];
-    [request setHTTPMethod:@"POST"];
-    
-    NSString *bodyString = [NSString stringWithFormat:
-        @"user_id=%@&email=%@&firstname=%@&lastname=%@&username=%@&img_url=%@&profile_url=%@&hobby=%@&company_email=%@&company_zip=%@&company_city=%@&company_ccode=%@&update=%@&consent=%@",
-        escapeString(s_userId), escapeString(s_email),
-        escapeString(s_firstName), escapeString(s_lastName), escapeString(s_formattedName),
-        escapeString(s_pictureUrl), escapeString(s_profileUrl),
-        escapeString(s_hobby),
-        escapeString(s_companyEmail), escapeString(s_companyZip),
-        escapeString(s_companyCity), escapeString(s_companyCcode),
-        (update ? @"1" : @"0"), (consent ? @"1" : @"0")];
-    NSLog(@"Submitting registration: %@", bodyString);
-    
-    NSData *body = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
-    [request setHTTPBody:body];
-    NSString *postLength = [NSString stringWithFormat:@"%d", [body length]];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    
-    NSString *apiBase = [QSUtil getApiBase];
-    NSString *url = [NSString stringWithFormat:@"%@/registerUser", apiBase];
-    
-    QSHttpClient *http = [[QSHttpClient alloc] init];
-    http.disableUI = true;
-    [http submitRequest:request :url :parent :delegate :@"" :nil];
-    
-    return http;
-}
 
-- (void) processResponse:(BOOL)success :(NSDictionary *)response :(id)userData
-{
-    if(!success) {
-        return;
-    }        
-    
-    _registered = true;
-
-    [QSLoginController storeUserData];
-    
-    [_controller onLoggedIn];
-}
-
-+ (void) storeUserData
-{
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                              s_token, @"token",
-                              s_userId, @"id",
-                              s_email, @"email",
-                              s_firstName, @"first",
-                              s_lastName, @"last",
-                              s_formattedName, @"formatted",
-                              s_profileUrl, @"profileUrl",
-                              s_pictureUrl, @"pictureUrl",
-                              s_companyEmail, @"companyEmail",
-                              s_companyZip, @"companyZip",
-                              s_companyCity, @"companyCity",
-                              s_companyCcode, @"companyCcode",
-                              s_location, @"location",
-                              s_hobby, @"hobby",
-                              nil];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:DATA_VERSION forKey:@"version"];
-    [[NSUserDefaults standardUserDefaults] setObject:userInfo forKey:@"userinfo"];
-    [[NSUserDefaults standardUserDefaults] setObject:s_watchList forKey:@"userwatch"];    
-}
 
 NSString *escapeString(NSString *str)
 {
     return (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef)str, NULL, (CFStringRef)@"!’\"();:@&=+$,/?%#[]% ", kCFStringEncodingUTF8);
 }
-
-/*-(void) loginViewDidFinish:(NSNotification*)notification
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    NSDictionary *profile = [notification userInfo];
-    
-    if(NULL != profile)
-    {
-        NSLog(@"Profile: %@", profile);
-
-        NSString *userId = [profile objectForKey:@"id"];        
-        NSString *email = [profile objectForKey:@"emailAddress"];
-        NSString *firstName = [profile objectForKey:@"firstName"];
-        NSString *lastName = [profile objectForKey:@"lastName"];
-        NSString *formattedName = [profile objectForKey:@"formattedName"];
-        NSString *pictureUrl = [profile objectForKey:@"pictureUrl"];
-        NSDictionary *location = [profile objectForKey:@"location"];
-        NSString *locationName = [location objectForKey:@"name"];
-        NSDictionary *country = [location objectForKey:@"country"];
-        NSString *ccode = [country objectForKey:@"code"];
-        NSString *headline = [profile objectForKey:@"headline"];
-        NSString *companyId = NULL;
-        NSString *companyName = NULL;
-        
-        NSDictionary *positions = [profile objectForKey:@"positions"];        
-        NSArray *positionsValues = [positions objectForKey:@"values"];
-        for(int i = 0; i < positionsValues.count; i++)
-        {
-            NSDictionary *position = [positionsValues objectAtIndex:i];
-            int isCurrent = [[position objectForKey:@"isCurrent"] intValue];
-            if(1 == isCurrent)
-            {
-                NSDictionary *company = [position objectForKey:@"company"];
-                NSNumber *cid = [company objectForKey:@"id"];
-                if(NULL != cid) {
-                    companyId = [cid stringValue];
-                }
-                companyName = [company objectForKey:@"name"];
-                break;
-            }
-        }
-        
-        s_token = _loginView.accessToken;
-        
-        s_email = email;
-        s_firstName = firstName;
-        s_lastName = lastName;
-        s_formattedName = formattedName;
-        s_pictureUrl = pictureUrl;
-        if(NULL == s_pictureUrl) s_pictureUrl = @"";
-        s_companyId = companyId;
-        if(NULL == s_companyId) s_companyId = @"";
-        s_companyName = companyName;
-        if(NULL == s_companyName) s_companyName = @"";
-        s_location = locationName;
-        if(NULL == s_location) s_location = @"";
-        s_ccode = ccode;
-        if(NULL == s_ccode) s_ccode = @"US";
-        s_ccode = [s_ccode uppercaseString];
-        s_headline = headline;
-        if(NULL == s_headline) s_headline = @"";
-
-        if((nil != s_userId) && [s_userId isEqualToString:userId]) {
-            NSLog(@"User already registered: %@ %@", s_userId, s_email);
-        } else {
-            s_userId = userId;
-            s_watchList = [[NSMutableArray alloc] initWithCapacity:MAX_USER_WATCH];
-            s_watchItems = [[NSMutableArray alloc] initWithCapacity:MAX_USER_WATCH];
-            s_hobby = @"";
-        }
-        
-        [self doRegister];
-    }
-    else
-    {
-        NSLog(@"No user profile or cancelled?");
-        
-        // lets go back to home
-        [_controller onSignout:false];
-    }
-}*/
 
 
 @end

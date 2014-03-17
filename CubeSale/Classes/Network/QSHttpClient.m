@@ -45,6 +45,14 @@ NSString *escapeString(NSString *str);
     NSLog(@"dealloc: QSHttpClient");
 }
 
+-(void)executeNetworkRequestWithRelativePath:(NSString*)relativePath parameters:(NSDictionary*)params {
+    
+    _connection = [NSURLConnection connectionWithRequest:request delegate:self];
+    if(_connection) {
+        _postResponse = [NSMutableData data];
+    } else
+}
+
 - (void) submitRequest:(NSMutableURLRequest *)request :(NSString *)url :(UIViewController *)parent :(id <QSHttpClientDelegate>) delegate :(NSString *)successMessage :(id)userData
 {
     NSString *reqUrl = nil;

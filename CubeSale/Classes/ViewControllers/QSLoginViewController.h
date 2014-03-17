@@ -10,14 +10,18 @@
 #import "iCarousel.h"
 #import "QSLoginController.h"
 
-@interface QSLoginViewController : UIViewController <iCarouselDataSource, iCarouselDelegate>
+@protocol QSLoginViewControllerDelegate;
 
-@property (nonatomic, retain) IBOutlet iCarousel *carousel;
-@property (nonatomic, retain) IBOutlet UIPageControl *pageControl;
+@interface QSLoginViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, QSLoginControllerDelegate>
 
-- (QSLoginController *) getController;
-- (void) setController:(QSLoginController *)controller;
+@property (nonatomic, weak)id<QSLoginViewControllerDelegate> delegate;
 
 - (IBAction)btnLogin:(UIButton *)sender;
+
+@end
+
+@protocol QSLoginViewControllerDelegate <NSObject>
+
+-(void)loginStatus:(BOOL)loginStatus withError:(NSError*)error;
 
 @end

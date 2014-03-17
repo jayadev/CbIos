@@ -369,7 +369,7 @@
 
 - (void) addCarouselToPage:(iCarousel *)carousel :(NSString *)filterStr
 {
-    [_filterData addObject:filterStr];
+        // [_filterData addObject:filterStr];
     // [_menuData addObject:filterStr];
     
     carousel.dataSource = self;

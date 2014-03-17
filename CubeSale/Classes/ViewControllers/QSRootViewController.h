@@ -7,10 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSLoginViewController.h"
 
-@interface QSRootViewController : UIViewController<UITabBarControllerDelegate>
+typedef enum{
+    TopViewStyleStandard,
+    TopViewStyleExpanded
+}TopViewStyle;
 
-- (void) onStart;
+@interface QSRootViewController : UIViewController <QSLoginViewControllerDelegate>
+
+@property(nonatomic, assign)BOOL topViewHidden;
+@property(nonatomic, assign)BOOL leftMenuButon;
+@property(nonatomic, assign)TopViewStyle topViewStyle;
+
 - (void) onStop;
 - (void) onLoggedIn;
 - (void) onSignout:(bool)partial;

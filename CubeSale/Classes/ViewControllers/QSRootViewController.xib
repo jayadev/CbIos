@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="5053"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSRootViewController">
             <connections>
+                <outlet property="contentView" destination="xQj-H6-mrO" id="k6H-7z-QhZ"/>
+                <outlet property="topView" destination="4ji-c1-Q6X" id="n0I-KZ-omf"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -14,7 +16,29 @@
         <view contentMode="scaleToFill" id="1">
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4ji-c1-Q6X" userLabel="tview">
+                    <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xQj-H6-mrO" userLabel="cview">
+                    <rect key="frame" x="0.0" y="63" width="320" height="417"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+            </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="xQj-H6-mrO" firstAttribute="trailing" secondItem="4ji-c1-Q6X" secondAttribute="trailing" id="Ngy-q2-1BD"/>
+                <constraint firstItem="xQj-H6-mrO" firstAttribute="top" secondItem="1" secondAttribute="top" constant="63" id="VfC-yw-LUE"/>
+                <constraint firstItem="xQj-H6-mrO" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="XEP-62-3J0"/>
+                <constraint firstAttribute="bottom" secondItem="xQj-H6-mrO" secondAttribute="bottom" id="hLz-Pc-A3x"/>
+                <constraint firstItem="4ji-c1-Q6X" firstAttribute="top" secondItem="1" secondAttribute="top" constant="20" symbolic="YES" id="hxC-Wg-qMP"/>
+                <constraint firstItem="xQj-H6-mrO" firstAttribute="leading" secondItem="4ji-c1-Q6X" secondAttribute="leading" id="idD-2c-UW1"/>
+                <constraint firstAttribute="bottom" secondItem="4ji-c1-Q6X" secondAttribute="bottom" constant="416" id="m8w-j2-THd"/>
+                <constraint firstAttribute="centerX" secondItem="xQj-H6-mrO" secondAttribute="centerX" id="v06-Rk-4nf"/>
+            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
         </view>
     </objects>
