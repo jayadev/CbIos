@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "QSLoginViewController.h"
+#import "QSRegisterViewController.h"
 
 typedef enum{
     TopViewStyleStandard,
     TopViewStyleExpanded
 }TopViewStyle;
 
-@interface QSRootViewController : UIViewController <QSLoginViewControllerDelegate>
+@interface QSRootViewController : UIViewController <QSLoginViewControllerDelegate,QSRegisterViewControllerDelegate>
 
 @property(nonatomic, assign)BOOL topViewHidden;
 @property(nonatomic, assign)BOOL leftMenuButon;

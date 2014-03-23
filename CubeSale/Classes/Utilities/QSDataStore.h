@@ -10,4 +10,9 @@
 
 @interface QSDataStore : NSObject
 
++(void)storeObject:(id<NSCoding>)object forKey:(NSString*)key;
++(id)retrieveObjectForKey:(NSString*)key;
++(void)removeObjectForKey:(NSString *)key;
++(void)syncronize;
+
 @end

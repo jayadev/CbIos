@@ -62,23 +62,23 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 
-    _city = [QSLoginController getUserCompanyCity];
-    _zip = [QSLoginController getUserCompanyZip];
-    _ccode = [QSLoginController getUserCompanyCcode];
-
-    NSString *profileStr = [QSLoginController getUserProfilerImage];
-    if(profileStr.length > 0) {
-        NSURL *profileUrl = [[NSURL alloc] initWithString:profileStr];
-        [cellProfileImage loadFromUrl:profileUrl];
-    }
-    
-    cellName.text = [QSLoginController getUserName];
-    cellLocation.text = [QSLoginController getUserLocation];
-    
-    hobbyView.text = [QSLoginController getUserHobby];
-    emailView.text = [QSLoginController getUserEmail];
-    locationView.text = [QSLoginController getUserLocation];
-    companyEmailView.text = [QSLoginController getUserCompanyEmail];
+//    _city = [QSLoginController getUserCompanyCity];
+//    _zip = [QSLoginController getUserCompanyZip];
+//    _ccode = [QSLoginController getUserCompanyCcode];
+//
+//    NSString *profileStr = [QSLoginController getUserProfilerImage];
+//    if(profileStr.length > 0) {
+//        NSURL *profileUrl = [[NSURL alloc] initWithString:profileStr];
+//        [cellProfileImage loadFromUrl:profileUrl];
+//    }
+//    
+//    cellName.text = [QSLoginController getUserName];
+//    cellLocation.text = [QSLoginController getUserLocation];
+//    
+//    hobbyView.text = [QSLoginController getUserHobby];
+//    emailView.text = [QSLoginController getUserEmail];
+//    locationView.text = [QSLoginController getUserLocation];
+//    companyEmailView.text = [QSLoginController getUserCompanyEmail];
     
     [hobbyView setDelegate:self];
     [locationView setDelegate:self];
@@ -263,8 +263,8 @@
     }
     
     bool consent = true;
-    _http = [QSLoginController postRegistration:emailView.text :companyEmailView.text :_zip :_city :_ccode
-                                               :hobbyView.text :true :consent :self.navigationController :self];
+//    _http = [QSLoginController postRegistration:emailView.text :companyEmailView.text :_zip :_city :_ccode
+//                                               :hobbyView.text :true :consent :self.navigationController :self];
 }
 
 - (void) processResponse:(BOOL)success :(NSDictionary *)response :(id)userData
@@ -273,7 +273,7 @@
         return;
     }
 
-    [QSLoginController storeUserData];
+        //[QSLoginController storeUserData];
     [self.navigationController popViewControllerAnimated:YES];    
 }
 

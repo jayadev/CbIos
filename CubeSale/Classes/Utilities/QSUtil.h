@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "QSLazyImage.h"
+#import "QSUserSession.h"
 
 #define CONST_PI   3.141592653589793
 #define CONST_2PI  6.283185307179586
@@ -15,9 +16,11 @@
 
 @interface QSUtil : NSObject
 
-+ (NSString *)getApiBase;
-+ (NSString *)getFEHost;
-+ (NSString *)getFEProductLanding;
++ (QSUserSession*)getUsetSession;
+
++ (NSString*)geteEscapeString:(NSString*)str;
++ (BOOL)isEmptyString:(NSString*)inputStr;
++ (BOOL)isValidEmailId:(NSString*)emailId;
 
 + (void)animateView:(UIView *)view :(int)distance up:(BOOL)up;
 

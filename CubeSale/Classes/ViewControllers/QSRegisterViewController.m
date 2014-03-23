@@ -9,68 +9,71 @@
 #import "QSRegisterViewController.h"
 #import "QSUtil.h"
 #import "QSLocationViewController.h"
+#import "QSApiConstants.h"
+
+@interface QSRegisterViewController ()
+
+@property (nonatomic, strong) IBOutlet QSLazyImage *cellProfileImage;
+@property (nonatomic, strong) IBOutlet UILabel *cellName;
+@property (nonatomic, strong) IBOutlet UILabel *cellLocation;
+
+@property (nonatomic, strong) IBOutlet UITextView *hobbyView;
+@property (nonatomic, strong) IBOutlet UITextField *emailView;
+@property (nonatomic, strong) IBOutlet UITextField *locationView;
+@property (nonatomic, strong) IBOutlet UITextField *companyEmailView;
+
+@property (nonatomic, strong) IBOutlet UIButton *consentButton;
+@property (nonatomic, strong) IBOutlet UIButton *noConsentButton;
+@property (nonatomic, strong) IBOutlet UIButton *locationButton;
+@property (nonatomic, strong) IBOutlet UIButton *submitButton;
+
+@property (nonatomic,strong)QSHttpClient *httpClient;
+@property (nonatomic,strong)CLLocationManager *locationManager;
+@property (nonatomic,strong)CLGeocoder *geocoder;
+
+- (IBAction) btnConsent:(id) sender;
+- (IBAction) btnNoConsent:(id) sender;
+- (IBAction) btnRegister:(id) sender;
+- (IBAction) btnLocation:(id) sender;
+
+@end
 
 @implementation QSRegisterViewController
-{
-    __unsafe_unretained QSLoginController *_controller;
-    
-    CLLocationManager *locationManager;
-    CLGeocoder *geocoder;
-    
-    NSString *_ccode;
-    NSString *_city;
-    NSString *_zip;
-}
 
 @synthesize cellProfileImage;
 @synthesize cellName;
 @synthesize cellLocation;
-
+@synthesize locationView;
 @synthesize hobbyView;
 @synthesize emailView;
-@synthesize locationView;
 @synthesize companyEmailView;
-
+@synthesize submitButton;
 @synthesize consentButton;
 @synthesize noConsentButton;
-
 @synthesize locationButton;
-@synthesize submitButton;
-
-- (QSLoginController *) getController
-{
-    return _controller;
-}
-
-- (void) setController:(QSLoginController *)controller
-{
-    _controller = controller;
-}
-
-- (void)dealloc
-{
-    NSLog(@"QSRegisterViewController dealloc");
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        geocoder = [[CLGeocoder alloc] init];
+        self.geocoder = [[CLGeocoder alloc] init];
         
-        locationManager = [[CLLocationManager alloc] init];
-        locationManager.delegate = self;
+        self.locationManager = [[CLLocationManager alloc] init];
+        self.locationManager.delegate = self;
     }
     return self;
 }
-
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc that aren't in use.
+}
+- (void)dealloc
+{
+    NSLog(@"QSRegisterViewController dealloc");
 }
 
 #pragma mark - View lifecycle
@@ -80,27 +83,27 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 
-    _city = [QSLoginController getUserCompanyCity];
-    _zip = [QSLoginController getUserCompanyCity];
-    _ccode = [QSLoginController getUserCompanyCcode];
+//    _city = [QSLoginController getUserCompanyCity];
+//    _zip = [QSLoginController getUserCompanyCity];
+//    _ccode = [QSLoginController getUserCompanyCcode];
     
-    NSString *profileStr = [QSLoginController getUserProfilerImage];
-    if(profileStr.length > 0) {
-        NSURL *profileUrl = [[NSURL alloc] initWithString:profileStr];
-        [cellProfileImage loadFromUrl:profileUrl];
-    }
+//    NSString *profileStr = [QSLoginController getUserProfilerImage];
+//    if(profileStr.length > 0) {
+//        NSURL *profileUrl = [[NSURL alloc] initWithString:profileStr];
+//        [cellProfileImage loadFromUrl:profileUrl];
+//    }
     
-    cellName.text = [QSLoginController getUserName];
-    cellLocation.text = [QSLoginController getUserLocation];
-    
-    emailView.text = [QSLoginController getUserEmail];
-    companyEmailView.text = [QSLoginController getUserCompanyEmail];
-    locationView.text = [QSLoginController getUserLocation];
-
-    NSString *hobby = [QSLoginController getUserHobby];
-    if(nil != hobby) {
-        hobbyView.text = hobby;
-    }    
+//    cellName.text = [QSLoginController getUserName];
+//    cellLocation.text = [QSLoginController getUserLocation];
+//    
+//    emailView.text = [QSLoginController getUserEmail];
+//    companyEmailView.text = [QSLoginController getUserCompanyEmail];
+//    locationView.text = [QSLoginController getUserLocation];
+//
+//    NSString *hobby = [QSLoginController getUserHobby];
+//    if(nil != hobby) {
+//        hobbyView.text = hobby;
+//    }    
     
     [hobbyView setDelegate:self];
     [locationView setDelegate:self];
@@ -114,7 +117,7 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
     
-    [locationManager stopMonitoringSignificantLocationChanges];
+    [self.locationManager stopMonitoringSignificantLocationChanges];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -123,12 +126,12 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark - CLLocationManagerDelegate
+#pragma mark - CLLocationManagerDelegate -
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
     NSLog(@"didFailWithError: %@", error);
-    [locationManager stopMonitoringSignificantLocationChanges];
+    [self.locationManager stopMonitoringSignificantLocationChanges];
     
     UIAlertView *errorAlert = [[UIAlertView alloc]
                                initWithTitle:@"Error" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -140,7 +143,7 @@
     NSLog(@"didUpdateToLocation: %@", newLocation);
     CLLocation *currentLocation = newLocation;
     
-    [geocoder reverseGeocodeLocation:currentLocation completionHandler:
+    [self.geocoder reverseGeocodeLocation:currentLocation completionHandler:
      ^(NSArray* placemarks, NSError* error) {
          [self onLocationFetch:false];
 
@@ -152,7 +155,7 @@
          }
      }];
     
-    [locationManager stopMonitoringSignificantLocationChanges];
+    [self.locationManager stopMonitoringSignificantLocationChanges];
 }
 
 - (void)locationEntered:(NSString *)location
@@ -163,7 +166,7 @@
     
     [self onLocationFetch:true];
 
-    [geocoder geocodeAddressString:location completionHandler:
+    [self.geocoder geocodeAddressString:location completionHandler:
      ^(NSArray *placemarks, NSError *error) {
          if([placemarks count] > 0) {
              NSLog(@"location: %@", placemarks);
@@ -180,7 +183,7 @@
              
              CLLocation *location = [[CLLocation alloc] initWithLatitude:placemark.region.center.latitude longitude:placemark.region.center.longitude];
              
-             [geocoder reverseGeocodeLocation:location completionHandler:
+             [self.geocoder reverseGeocodeLocation:location completionHandler:
               ^(NSArray* placemarks, NSError* error) {
                   [self onLocationFetch:false];
                   
@@ -197,7 +200,23 @@
      }];
 }
 
-#pragma mark UITextViewDelegate
+- (void)onLocationFetch:(bool)start
+{
+    submitButton.enabled = !start;
+    locationButton.enabled = !start;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = start;
+}
+
+- (void) setLocation:(NSString *)city :(NSString *)zip :(NSString *)ccode
+{
+//    _city = city;
+//    _zip = zip;
+//    _ccode = ccode;
+    
+        //locationView.text = [NSString stringWithFormat:@"%@, %@", _city, _zip];
+}
+
+#pragma mark UITextViewDelegate -
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
@@ -216,7 +235,7 @@
     return YES;
 }
 
-#pragma mark UITextFieldDelegate
+#pragma mark UITextFieldDelegate -
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
@@ -248,6 +267,8 @@
     }
 }
 
+#pragma mark Buttom Action Handler -
+
 - (IBAction) btnConsent:(id) sender
 {
     consentButton.hidden = NO;
@@ -262,9 +283,8 @@
 
 - (IBAction) btnRegister:(id) sender
 {
-    NSLog(@"email: %@, location: %@", emailView.text, locationView.text);
-
-    if(0 == emailView.text.length) {
+    NSString *email = emailView.text;
+    if(![QSUtil isValidEmailId:email]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please enter your email id"
                                                         message:nil
                                                        delegate:nil
@@ -273,8 +293,8 @@
         [alert show];
         return;
     }
-
-    if(0 == companyEmailView.text.length) {
+    NSString *companyEmail = companyEmailView.text;
+    if(![QSUtil isValidEmailId:companyEmail]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please enter your work email id"
                                                         message:nil
                                                        delegate:nil
@@ -283,19 +303,45 @@
         [alert show];
         return;
     }
-    
-//    if(_ccode.length == 0) {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please enter your work location"
-//                                                        message:nil
-//                                                       delegate:nil
-//                                              cancelButtonTitle:@"OK"
-//                                              otherButtonTitles:nil];
-//        [alert show];
-//        return;        
-//    }
-    
+    NSString *workLocation =  locationView.text;
+    if(![QSUtil isEmptyString:workLocation]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please enter your work location"
+                                                        message:nil
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;        
+    }
     bool consent = !consentButton.hidden;
-    [_controller onRegisterDone:emailView.text :companyEmailView.text :_zip :_city :@"bangalore" :hobbyView.text :consent];
+    NSString *consentStr = (consent ? @"1" : @"0");
+    
+    @try {
+            //create post request data dict
+        NSMutableDictionary *postDict = [NSMutableDictionary dictionary];
+        [postDict setObject:nil forKey:@"user_id"];
+        [postDict setObject:[QSUtil geteEscapeString:email] forKey:@"email"];
+        [postDict setObject:nil forKey:@"firstname"];
+        [postDict setObject:nil forKey:@"lastname"];
+        [postDict setObject:nil forKey:@"img_url"];
+        [postDict setObject:nil forKey:@"profile_url"];
+        [postDict setObject:nil forKey:@"hobby"];
+        [postDict setObject:[QSUtil geteEscapeString:companyEmail] forKey:@"company_email"];
+        [postDict setObject:nil forKey:@"company_zip"];
+        [postDict setObject:nil forKey:@"company_city"];
+        [postDict setObject:nil forKey:@"company_ccode"];
+        [postDict setObject:nil forKey:@"update"];
+        [postDict setObject:consentStr forKey:@"consent"];
+        
+        if(!self.httpClient){
+            self.httpClient = [[QSHttpClient alloc] init];
+            self.httpClient.delegate = self;
+        }
+        [self.httpClient executeNetworkRequest:RequestType_Post WithRelativeUrl:QS_API_REGISTERUSER parameters:postDict];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception While Reistering User:%@",exception);
+    }
 }
 
 - (IBAction) btnLocation:(id) sender
@@ -303,7 +349,7 @@
     if(locationView.text.length == 0) {
         [self onLocationFetch:true];
     }
-    [locationManager startMonitoringSignificantLocationChanges];
+    [self.locationManager startMonitoringSignificantLocationChanges];
 
 /*    QSLocationViewController *locationController = [[QSLocationViewController alloc] initWithNibName:@"QSLocationViewController" bundle:nil];
     [locationController setController:self :_city :_zip :_ccode];
@@ -312,100 +358,40 @@
      }];*/
 }
 
-- (void)onLocationFetch:(bool)start
-{
-    submitButton.enabled = !start;
-    locationButton.enabled = !start;
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = start;
-}
+#pragma mark QSHttpClient Delegate Handler -
 
-- (void) setLocation:(NSString *)city :(NSString *)zip :(NSString *)ccode
-{
-    _city = city;
-    _zip = zip;
-    _ccode = ccode;
-    
-    locationView.text = [NSString stringWithFormat:@"%@, %@", _city, _zip];
-}
-
-+ (QSHttpClient *) postRegistration:(NSString *)email :(NSString *)companyEmail :(NSString *)zip :(NSString *)city :(NSString *)ccode :(NSString *)hobby :(bool)update :(bool)consent :(UIViewController *)parent :(id <QSHttpClientDelegate>)delegate
-{
-    s_email = email;
-    s_companyEmail = companyEmail;
-    s_companyZip = zip;
-    s_companyCity = city;
-    s_companyCcode = ccode;
-    s_location = [NSString stringWithFormat:@"%@, %@", city, zip];
-    s_hobby = hobby;
-    
-        // create request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
-    [request setHTTPShouldHandleCookies:NO];
-    [request setTimeoutInterval:30];
-    [request setHTTPMethod:@"POST"];
-    
-    NSString *bodyString = [NSString stringWithFormat:
-                            @"user_id=%@&email=%@&firstname=%@&lastname=%@&username=%@&img_url=%@&profile_url=%@&hobby=%@&company_email=%@&company_zip=%@&company_city=%@&company_ccode=%@&update=%@&consent=%@",
-                            escapeString(s_userId), escapeString(s_email),
-                            escapeString(s_firstName), escapeString(s_lastName), escapeString(s_formattedName),
-                            escapeString(s_pictureUrl), escapeString(s_profileUrl),
-                            escapeString(s_hobby),
-                            escapeString(s_companyEmail), escapeString(s_companyZip),
-                            escapeString(s_companyCity), escapeString(s_companyCcode),
-                            (update ? @"1" : @"0"), (consent ? @"1" : @"0")];
-    NSLog(@"Submitting registration: %@", bodyString);
-    
-    NSData *body = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
-    [request setHTTPBody:body];
-    NSString *postLength = [NSString stringWithFormat:@"%d", [body length]];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    
-    NSString *apiBase = [QSUtil getApiBase];
-    NSString *url = [NSString stringWithFormat:@"%@/registerUser", apiBase];
-    
-    QSHttpClient *http = [[QSHttpClient alloc] init];
-    http.disableUI = true;
-    [http submitRequest:request :url :parent :delegate :@"" :nil];
-    
-    return http;
-}
-
-- (void) processResponse:(BOOL)success :(NSDictionary *)response :(id)userData
-{
-    if(!success) {
-        return;
+- (void) connectionDidFinishWithData:(NSDictionary *)response withError:(NSError*)error {
+    if(!error) {
+        
     }
-    
-    _registered = true;
-    
-    [QSLoginController storeUserData];
-    
-    [_controller onLoggedIn];
+    else {
+        
+    }
 }
 
-+ (void) storeUserData
-{
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                              s_token, @"token",
-                              s_userId, @"id",
-                              s_email, @"email",
-                              s_firstName, @"first",
-                              s_lastName, @"last",
-                              s_formattedName, @"formatted",
-                              s_profileUrl, @"profileUrl",
-                              s_pictureUrl, @"pictureUrl",
-                              s_companyEmail, @"companyEmail",
-                              s_companyZip, @"companyZip",
-                              s_companyCity, @"companyCity",
-                              s_companyCcode, @"companyCcode",
-                              s_location, @"location",
-                              s_hobby, @"hobby",
-                              nil];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:DATA_VERSION forKey:@"version"];
-    [[NSUserDefaults standardUserDefaults] setObject:userInfo forKey:@"userinfo"];
-    [[NSUserDefaults standardUserDefaults] setObject:s_watchList forKey:@"userwatch"];    
-}
+
+//+ (void) storeUserData
+//{
+//    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+//                              s_token, @"token",
+//                              s_userId, @"id",
+//                              s_email, @"email",
+//                              s_firstName, @"first",
+//                              s_lastName, @"last",
+//                              s_formattedName, @"formatted",
+//                              s_profileUrl, @"profileUrl",
+//                              s_pictureUrl, @"pictureUrl",
+//                              s_companyEmail, @"companyEmail",
+//                              s_companyZip, @"companyZip",
+//                              s_companyCity, @"companyCity",
+//                              s_companyCcode, @"companyCcode",
+//                              s_location, @"location",
+//                              s_hobby, @"hobby",
+//                              nil];
+//    
+//    [[NSUserDefaults standardUserDefaults] setObject:DATA_VERSION forKey:@"version"];
+//    [[NSUserDefaults standardUserDefaults] setObject:userInfo forKey:@"userinfo"];
+//    [[NSUserDefaults standardUserDefaults] setObject:s_watchList forKey:@"userwatch"];    
+//}
 
 @end

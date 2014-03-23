@@ -76,11 +76,11 @@
 }
 
 #pragma mark -
-#pragma mark LSLoginController delegate
+#pragma mark QSLoginController delegate
 
 -(void)loginDidComplete {
     if(self.delegate){
-        [self.delegate loginStatus:TRUE withError:nil];
+        [self.delegate loginCompletedWithStatus:TRUE withError:nil];
     }
 }
 

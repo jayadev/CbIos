@@ -23,7 +23,6 @@
     
 @end
 
-NSString *escapeString(NSString *str);
 
 @implementation QSProductViewController
 {
@@ -88,7 +87,7 @@ NSString *escapeString(NSString *str);
 {
     _item = item;
     _pid = [item valueForKey:@"id"];
-    NSString *userId = [QSLoginController getUserId];
+    NSString *userId = NULL;//[QSLoginController getUserId];
     NSString *iuserId = [_item valueForKey:@"user_id"];
     if([userId isEqualToString:iuserId]) {
         _myItem = YES;
@@ -204,19 +203,19 @@ NSString *escapeString(NSString *str);
 
     // commentTable.tableHeaderView = headerView;
 
-    NSString *commentProfileUrl = [QSLoginController getUserProfilerImage];
+    NSString *commentProfileUrl = NULL;//[QSLoginController getUserProfilerImage];
     if(![commentProfileUrl isEqualToString:@""]) {
         [commentProfileImage loadFromUrl:[NSURL URLWithString:commentProfileUrl]];
     }
-    if([QSLoginController isInUserWatch:_pid]) {
-        [self btnWatch:cellWatch];
-    }
+//    if([QSLoginController isInUserWatch:_pid]) {
+//        [self btnWatch:cellWatch];
+//    }
     
-    NSString *apiBase = [QSUtil getApiBase];
-    NSString *url = [NSString stringWithFormat:@"%@/getComments?user_id=%@&prod_id=%@", apiBase, [QSLoginController getUserId], _pid];
+    NSString *apiBase = NULL;//[QSUtil getApiBase];
+    NSString *url = NULL;//[NSString stringWithFormat:@"%@/getComments?user_id=%@&prod_id=%@", apiBase, [QSLoginController getUserId], _pid];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     _httpComments = [[QSHttpClient alloc] init];
-    [_httpComments submitRequest:request :url :self :self :@"" :@"get"];
+        // [_httpComments submitRequest:request :url :self :self :@"" :@"get"];
 }
 
 - (void) processResponse:(BOOL)success :(NSDictionary *)response :(id)userData
@@ -228,14 +227,14 @@ NSString *escapeString(NSString *str);
     if(!success) return;
     
     if([(NSString *)userData isEqualToString:@"add"]) {
-        NSDictionary *newItem = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                 @"", @"mtime", 
-                                 [QSLoginController getUserId], @"user_id", 
-                                 [QSLoginController getUserName], @"username", 
-                                 [QSLoginController getUserProfilerImage], @"img_url", 
-                                 commentField.text, @"comment", 
-                                 nil];
-        [_comments insertObject:newItem atIndex:0];
+//        NSDictionary *newItem = [[NSDictionary alloc] initWithObjectsAndKeys:
+//                                 @"", @"mtime", 
+//                                 [QSLoginController getUserId], @"user_id", 
+//                                 [QSLoginController getUserName], @"username", 
+//                                 [QSLoginController getUserProfilerImage], @"img_url", 
+//                                 commentField.text, @"comment", 
+//                                 nil];
+//        [_comments insertObject:newItem atIndex:0];
         commentField.text = @"";
     } else {
         NSArray *comments = (NSArray *)[response valueForKey:@"response_data"];
@@ -301,13 +300,13 @@ NSString *escapeString(NSString *str);
 {
     self.reloadGrid = true;
 
-    if(_watch) {
-        [cellWatch setImage:[UIImage imageNamed:@"starorange.png"] forState:UIControlStateNormal];
-        [QSLoginController addUserWatch:_item];
-    } else {
-        [cellWatch setImage:[UIImage imageNamed:@"stargray.png"] forState:UIControlStateNormal];
-        [QSLoginController removeUserWatch:_pid];
-    }
+//    if(_watch) {
+//        [cellWatch setImage:[UIImage imageNamed:@"starorange.png"] forState:UIControlStateNormal];
+//        [QSLoginController addUserWatch:_item];
+//    } else {
+//        [cellWatch setImage:[UIImage imageNamed:@"stargray.png"] forState:UIControlStateNormal];
+//        [QSLoginController removeUserWatch:_pid];
+//    }
     _watch = !_watch;
 }
 
@@ -432,11 +431,12 @@ NSString *escapeString(NSString *str);
     [request setTimeoutInterval:30];
     [request setHTTPMethod:@"POST"];
     
-    NSString *userId = [QSLoginController getUserId];
-    NSString *sbody = [NSString stringWithFormat:
-                     @"user_id=%@&prod_id=%@&comment=%@", 
-                     escapeString(userId), escapeString(_pid),
-                     escapeString(textField.text)];
+    NSString *userId = NULL;//[QSLoginController getUserId];
+    NSString *sbody;
+//    NSString *sbody = [NSString stringWithFormat:
+//                     @"user_id=%@&prod_id=%@&comment=%@", 
+//                     escapeString(userId), escapeString(_pid),
+//                     escapeString(textField.text)];
     NSLog(@"comment body: %@", sbody);
 
     NSData *body = [sbody dataUsingEncoding:NSUTF8StringEncoding];
@@ -444,12 +444,12 @@ NSString *escapeString(NSString *str);
     NSString *postLength = [NSString stringWithFormat:@"%d", [body length]];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     
-    NSString *apiBase = [QSUtil getApiBase];
+    NSString *apiBase = NULL;//[QSUtil getApiBase];
     NSString *url = [NSString stringWithFormat:@"%@/addComment", apiBase];
     
     _httpNewComment = [[QSHttpClient alloc] init];
-    _httpNewComment.disableUI = true;
-    [_httpNewComment submitRequest:request :url :self :self :@"" :@"add"];
+//    _httpNewComment.disableUI = true;
+//    [_httpNewComment submitRequest:request :url :self :self :@"" :@"add"];
     
     [commentActivity startAnimating]; 
     

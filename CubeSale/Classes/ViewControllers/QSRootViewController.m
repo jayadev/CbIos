@@ -116,7 +116,9 @@
 //    _navController = nil;
 }
 
--(void)loginStatus:(BOOL)loginStatus withError:(NSError*)error {
+
+#pragma mark - LoginViewController delegate handler
+-(void)loginCompletedWithStatus:(BOOL)loginStatus withError:(NSError*)error {
     if(loginStatus == TRUE) {
         //remove loginviewcontroller
 //        [self.loginViewCon dismissViewControllerAnimated:NO completion:nil];
@@ -124,11 +126,24 @@
         
         //show register viewcontroller
         self.registerViewCon = [[QSRegisterViewController alloc] initWithNibName:@"QSRegisterViewController" bundle:nil];
+        self.registerViewCon.delegate = self;
         [self presentViewController:self.registerViewCon animated:YES completion:nil];
     }
     else {
         
     }
 }
+
+#pragma mark - RegistrationViewController delegate handler
+
+-(void)registrationCompletedWithStatus:(BOOL)registrationStatus withError:(NSError*)error {
+    if(registrationStatus == TRUE) {
+        
+    }
+    else {
+        
+    }
+}
+
 
 @end

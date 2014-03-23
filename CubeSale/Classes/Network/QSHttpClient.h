@@ -8,20 +8,27 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol QSHttpClientDelegate <NSObject>
+typedef enum {
+    RequestType_Post,
+    RequestType_Get
+}NetworkRequestType;
 
-@required
-- (void) processResponse:(BOOL)success :(NSDictionary *)response :(id)userData;
-
-@end
+@protocol QSHttpClientDelegate;
 
 @interface QSHttpClient : NSObject
 {
 }
 
-@property bool disableUI;
+@property(nonatomic,weak)id<QSHttpClientDelegate> delegate;
 
-- (void) submitRequest:(NSURLRequest *)request :(NSString *)url :(UIViewController *)parent :(id <QSHttpClientDelegate>)delegate :(NSString *)successMessage :(id)userData;
+-(void)executeNetworkRequest:(NetworkRequestType)requesType WithRelativeUrl:(NSString*)relativeUrlPath parameters:(NSDictionary*)params;
 - (void) cancelRequest;
+
+@end
+
+@protocol QSHttpClientDelegate <NSObject>
+
+@required
+- (void) connectionDidFinishWithData:(NSDictionary *)response withError:(NSError*)error;
 
 @end

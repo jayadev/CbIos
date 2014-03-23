@@ -6,201 +6,163 @@
 //  Copyright (c) 2012 None. All rights reserved.
 //
 
-#import "SBJson.h"
 #import "QSHttpClient.h"
 #import "QSLoginController.h"
-#import "QSBusyView.h"
+#import "QSApiConstants.h"
+#import "QSUtil.h"
+#import "QSUserSession.h"
 
-NSString *escapeString(NSString *str);
+
+@interface QSHttpClient ()
+
+@property (nonatomic, weak) NSURLConnection *connection;
+@property (nonatomic, weak) NSMutableData *responseData;
+
+@end
+
 
 @implementation QSHttpClient
-{
-    NSURLConnection *_connection;
-
-    BOOL _result;
-    NSMutableData *_postResponse;
-    NSString *_successMessage;
-    id _userData;
-    
-    __unsafe_unretained id <QSHttpClientDelegate> _delegate;
-    NSDictionary *_response;
-    
-    QSBusyView *_busy;
-}
-
-@synthesize disableUI;
 
 - (id) init
 {
     self = [super init];
     if(self) {
-        disableUI = false;
-        _connection = nil;
+
     }
     return self;
 }
-
 - (void) dealloc
 {
     NSLog(@"dealloc: QSHttpClient");
 }
 
--(void)executeNetworkRequestWithRelativePath:(NSString*)relativePath parameters:(NSDictionary*)params {
-    
-    _connection = [NSURLConnection connectionWithRequest:request delegate:self];
-    if(_connection) {
-        _postResponse = [NSMutableData data];
-    } else
-}
+#pragma mark Request Creation Methods -
 
-- (void) submitRequest:(NSMutableURLRequest *)request :(NSString *)url :(UIViewController *)parent :(id <QSHttpClientDelegate>) delegate :(NSString *)successMessage :(id)userData
-{
-    NSString *reqUrl = nil;
-
-    NSString *token = [QSLoginController getToken];
+-(NSURL*)getUrlForApiPath:(NSString*)apiRelativePath {
+    if(!apiRelativePath)
+        NSParameterAssert("Invalid api path");
+    QSUserSession *userSession = [QSUtil getUsetSession];
+    NSURL *baseUrl = [NSURL URLWithString:QS_API_BASEPATH];
+    NSString *token = userSession.token;
     if(token) {
-        NSRange range = [url rangeOfString:@"?"];
+        NSRange range = [apiRelativePath rangeOfString:@"?"];
         if(NSNotFound == range.location) {
-            reqUrl = [NSString stringWithFormat:@"%@?_token=%@", url, escapeString(token)];
+            apiRelativePath = [NSString stringWithFormat:@"%@?_token=%@", apiRelativePath,[QSUtil geteEscapeString:token]];
         } else {
-            reqUrl = [NSString stringWithFormat:@"%@&_token=%@", url, escapeString(token)];            
+            apiRelativePath = [NSString stringWithFormat:@"%@&_token=%@", apiRelativePath,[QSUtil geteEscapeString:token]];
         }
     } else {
-        reqUrl = url;
+        apiRelativePath = apiRelativePath;
+    }
+    NSURL *url = [[NSURL alloc] initWithString:apiRelativePath relativeToURL:baseUrl];
+    return url;
+}
+-(NSMutableString*)getQueryParamString:(NSDictionary*)queryParamDict {
+    if( (!queryParamDict) || (!queryParamDict.count) )
+        NSParameterAssert("Invalid query param dict");
+    
+    NSMutableString *queryparams = [NSMutableString string];
+    for (NSString* key in queryParamDict) {
+        NSString *query =[NSString stringWithFormat:@"%@=%@",key,[queryParamDict objectForKey:key]];
+        [queryparams appendString:query];
+    }
+    return queryparams;
+}
+-(NSData*)getPostBodyString:(NSDictionary*)postParamDict {
+    if( (!postParamDict) || (!postParamDict.count) )
+        NSParameterAssert("Invalid post param dict");
+    NSError *postDataError = nil;
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:postParamDict options:NSJSONWritingPrettyPrinted error:&postDataError];
+    if(postDataError){
+        assert("Invalid Post param dict");
+    }
+    return postData;
+}
+-(NSURLRequest*)createGetRequestWithUrl:(NSURL*)url queryParams:(NSString*)queryparams{
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setHTTPMethod:@"GET"];
+    [request setURL:url];
+    return request;
+}
+-(NSURLRequest*)createPostRequestWithUrl:(NSURL*)url withPostData:(NSData*)postData{
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    //set post data
+    [request setHTTPBody:postData];
+    NSString *postLength = [NSString stringWithFormat:@"%d", (int)[postData length]];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    //set other post request params
+    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+    [request setTimeoutInterval:60];
+    [request setHTTPMethod:@"POST"];
+    [request setURL:url];
+    return request;
+}
+-(void)executeNetworkRequest:(NetworkRequestType)requesType WithRelativeUrl:(NSString*)relativeUrlPath
+                  parameters:(NSDictionary*)paramsDict {
+    NSURLRequest *request;
+    if(requesType == RequestType_Get){
+        request = [self createGetRequestWithUrl:[self getUrlForApiPath:relativeUrlPath]
+                                    queryParams:[self getQueryParamString:paramsDict]];
+    }
+    else if(requesType == RequestType_Post) {
+        request = [self createPostRequestWithUrl:[self getUrlForApiPath:relativeUrlPath]
+                                    withPostData:[self getPostBodyString:paramsDict]];
     }
     
-    [request setURL:[NSURL URLWithString:reqUrl]];
-    NSLog(@"http: %@", request.URL);
-
-    _result = FALSE;
-    _delegate = delegate;
-    _successMessage = successMessage;
-    _userData = userData;
-    _response = nil;
-    
-    _connection = [NSURLConnection connectionWithRequest:request delegate:self];
-    if(_connection) {
-        _postResponse = [NSMutableData data];
-    } else {
-        disableUI = false;
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connection failed!"
-														message:nil
-													   delegate:self
-                                              cancelButtonTitle:@"OK"
-											  otherButtonTitles:nil];
-		[alert show];
-        return;
+    self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
+    if(self.connection) {
+        self.responseData = [NSMutableData data];
     }
-    
-    if(disableUI) {
-        _busy = [[QSBusyView alloc] initWithNibName:@"QSBusyView" bundle:nil];
-        [parent presentModalViewController:_busy animated:FALSE];
+    else {
+        assert("network connection object creation failed");
     }
 }
-
 - (void)cancelRequest
 {
-    _delegate = nil;
-    
-    if(_connection) {
-        [_connection cancel];
-        _connection = nil;
+    self.delegate = nil;
+    if(self.responseData){
+        self.responseData = nil;
     }
-    
-}
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if(disableUI) {
-        [_busy dismissModalViewControllerAnimated:FALSE];
-    }
-
-    if(_delegate) {
-        [_delegate processResponse:_result :_response :_userData];
-        // _delegate = nil;
+    if(self.connection) {
+        [self.connection cancel];
+        self.connection = nil;
     }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    [_postResponse setLength:0];
+    [self.responseData setLength:0];
 }
-
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    [_postResponse appendData:data];    
+    [self.responseData appendData:data];
 }
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{    
-    _postResponse = NULL;
-    
-    if(disableUI) {
-        // inform the user
-        NSString *errorMessage = [NSString stringWithFormat:@"Connection failed! Error - %@",
-                                  [error localizedDescription]];
-    
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:errorMessage
-                                                    message:nil
-                                                   delegate:self
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-        [alert show];
-    } else if(_delegate) {
-        [_delegate processResponse:_result :_response :_userData];
-        // _delegate = nil;
-    }
-}
-
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    //NSString *response = [[NSString alloc] initWithData:_postResponse encoding:NSUTF8StringEncoding];
-    //NSLog(@"response: %@", response);
-    
-    UIAlertView *alert = nil;
-    NSDictionary *responseJson = [_postResponse JSONValue];
-    int status = 0;
-    NSString *errorMsg = nil;
-    if(nil != responseJson) {
-        status = [[responseJson valueForKey:@"status"] intValue];
-        errorMsg = [responseJson valueForKey:@"error_desc"];
-    }
-    
-    if((nil == responseJson) || (status != 1)) {
-        NSString *response = [[NSString alloc] initWithData:_postResponse encoding:NSUTF8StringEncoding];
-        NSLog(@"response: %@", response);
-        
-        alert = [[UIAlertView alloc] initWithTitle:@"Error processing request"
-                                           message:errorMsg
-                                          delegate:self
-                                 cancelButtonTitle:@"OK"
-                                 otherButtonTitles:nil];        
-    } else {
-        NSLog(@"%@", responseJson);
-        
-        _result = TRUE;
-        _response = responseJson;
-
-        if([_successMessage isEqualToString:@""]) {
-            if(disableUI) {
-                [_busy dismissModalViewControllerAnimated:FALSE];
-            }
-            
-            if(_delegate) {
-                [_delegate processResponse:_result :_response :_userData];
-                // _delegate = nil;
-            }
-            return;
-        } else {
-            alert = [[UIAlertView alloc] initWithTitle:_successMessage
-                                           message:nil
-                                          delegate:self
-                                 cancelButtonTitle:@"OK"
-                                 otherButtonTitles:nil];
+    NSError *jsonParseError = nil;
+    id responseJson = [NSJSONSerialization JSONObjectWithData:self.responseData options:NSJSONReadingMutableContainers error:&jsonParseError];
+    //check for json parsing error
+    if(jsonParseError){
+        //call delegate with error object
+        if(self.delegate){
+            [self.delegate connectionDidFinishWithData:nil withError:jsonParseError];
         }
     }
+    //check for response type : it should be of type dictionary
+//    if([id class] ty]){
+//        
+//    }
+    //call delegate with error=nil
+    if(self.delegate){
+        [self.delegate connectionDidFinishWithData:responseJson withError:nil];
+    }
     
-    [alert show];    
+    
+    
+}
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    self.responseData = nil;
 }
 
 @end

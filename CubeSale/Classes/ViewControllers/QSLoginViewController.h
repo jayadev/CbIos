@@ -22,6 +22,6 @@
 
 @protocol QSLoginViewControllerDelegate <NSObject>
 
--(void)loginStatus:(BOOL)loginStatus withError:(NSError*)error;
+-(void)loginCompletedWithStatus:(BOOL)loginStatus withError:(NSError*)error;
 
 @end

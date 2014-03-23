@@ -56,7 +56,7 @@
     
     [QSUtil updateItemCell:_item 
                           :nil :cellProfileImage :cellName :nil :nil :cellLocation :cellCompany :nil :nil :nil :nil];
-    NSString *body = [NSString stringWithFormat:@"Hello, \n\n\n\n%@", [QSLoginController getUserName]];
+    NSString *body = NULL;//[NSString stringWithFormat:@"Hello, \n\n\n\n%@", [QSLoginController getUserName]];
     textBody.text = body;
 }
 

@@ -7,25 +7,40 @@
 //
 
 #import "QSUtil.h"
+#import "QSDataStore.h"
+#import "QSUserSessionConstants.h"
+
 
 @implementation QSUtil
 
-+ (NSString *)getApiBase
-{
-    // return @"http://cubesales.com/api/v1";
-    return @"http://cubesales.com/api/v2";
+#pragma mark -
+#pragma mark Session Util Methods -
+
++ (QSUserSession*)getUsetSession {
+
+    NSDictionary *userInfoDict = [QSDataStore retrieveObjectForKey:KUSERINFODICT];
+    QSUserSession *userSession = [[QSUserSession alloc] init];
+    userSession.token = [userInfoDict objectForKey:KFBTOKEN];
+    return userSession;
 }
 
-+ (NSString *)getFEHost
-{
-    return @"http://www.cubesales.com";
-}
+#pragma mark -
+#pragma mark String Util Methods -
 
-+ (NSString *)getFEProductLanding
++ (NSString*)geteEscapeString:(NSString*)str
 {
-    return @"http://www.cubesales.com/item";
+    return (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef)str, NULL, (CFStringRef)@"!’\"();:@&=+$,/?%#[]% ", kCFStringEncodingUTF8);
 }
-
++ (BOOL)isEmptyString:(NSString*)inputStr {
+    if( (!inputStr) || (![inputStr isKindOfClass:[NSString class]]) ) {
+        return TRUE;
+    }
+    NSString *trimStr = [inputStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return ( (!trimStr.length) || [trimStr isEqualToString:@""]);
+}
++ (BOOL)isValidEmailId:(NSString*)emailId {
+    return [self isEmptyString:emailId];
+}
 
 + (void)animateView:(UIView *)view :(int)distance up:(BOOL)up
 {

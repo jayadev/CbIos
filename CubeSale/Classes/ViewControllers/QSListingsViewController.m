@@ -204,7 +204,7 @@
         [self getListings:@"mycmpl" :_httpMyl];
         _httpMy = [[QSHttpClient alloc] init];
         [self getListings:@"my" :_httpMy];
-        NSMutableArray *pids = [QSLoginController getUserWatchList];
+        NSMutableArray *pids = NULL;//[QSLoginController getUserWatchList];
         if(pids.count > 0) {
             _httpWatch = [[QSHttpClient alloc] init];
             [self getListings:@"watch" :_httpWatch];
@@ -227,24 +227,24 @@
 
 - (void) getListings:(NSString *)filter :(QSHttpClient *)http
 {
-    NSString *apiBase = [QSUtil getApiBase];
+    NSString *apiBase = NULL;//[QSUtil getApiBase];
 
     if([filter isEqualToString:@"watch"]) {
-        NSMutableArray *pids = [QSLoginController getUserWatchList];
+        NSMutableArray *pids =NULL;// [QSLoginController getUserWatchList];
         NSString *joinedString = [pids componentsJoinedByString:@","];
         NSString *url = [NSString stringWithFormat:@"%@/getProductDetails?prod_id=%@", apiBase, joinedString];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        [http submitRequest:request :url :self :self :@"" :filter];
+            // [http submitRequest:request :url :self :self :@"" :filter];
     } else if([filter isEqualToString:@"ud"]) {
-        NSString *userId = [QSLoginController getUserId];
+        NSString *userId = NULL;//[QSLoginController getUserId];
         NSString *url = [NSString stringWithFormat:@"%@/getUserInfo?user_id=%@", apiBase, userId];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        [http submitRequest:request :url :self :self :@"" :filter];
+            //[http submitRequest:request :url :self :self :@"" :filter];
     } else {
-        NSString *userId = [QSLoginController getUserId];
+        NSString *userId = NULL;//[QSLoginController getUserId];
         NSString *url = [NSString stringWithFormat:@"%@/getUserListings?user_id=%@&filter_type=%@", apiBase, userId, filter];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        [http submitRequest:request :url :self :self :@"" :filter];        
+            //[http submitRequest:request :url :self :self :@"" :filter];
     }
 }
 
@@ -259,7 +259,7 @@
             _mylItems = [response valueForKey:@"response_data"];
         }  else if([(NSString *)userData isEqualToString:@"watch"]) {
             NSArray *watchItems = [response valueForKey:@"response_data"];
-            if(watchItems) [QSLoginController initUserWatchItems:watchItems];
+                //if(watchItems) [QSLoginController initUserWatchItems:watchItems];
         } else if([(NSString *)userData isEqualToString:@"my"]) {
             _myItems = [response valueForKey:@"response_data"];
         } else if([(NSString *)userData isEqualToString:@"ud"]) {
@@ -267,8 +267,8 @@
             NSString *company = [ud valueForKey:@"company"];
             bool isVerified = [[ud valueForKey:@"verified"] boolValue];
             
-            [QSLoginController setUserCompany:company];
-            [QSLoginController setUserValidation:isVerified];
+//            [QSLoginController setUserCompany:company];
+//            [QSLoginController setUserValidation:isVerified];
             
             // reset the company
             [_filterData setObject:company atIndexedSubscript:0];
@@ -302,8 +302,8 @@
 
     int gIndex = 0;
 
-    NSString *company = [QSLoginController getUserCompany];
-    NSString *city = [QSLoginController getUserCompanyCity];
+    NSString *company = NULL;//[QSLoginController getUserCompany];
+    NSString *city = NULL;//[QSLoginController getUserCompanyCity];
     
     _carouselMycmp = [self addCarousel:gIndex++ :@"Be the first to post in your company."];
     [self addCarouselToPage:_carouselMycmp :company];
@@ -425,7 +425,7 @@
 {
     if(carousel == _carouselMycmp) return _mycmpItems;
     else if(carousel == _carouselMyl) return _mylItems;
-    else if(carousel == _carouselWatch) return [QSLoginController getUserWatchItems];
+    else if(carousel == _carouselWatch) return NULL;//[QSLoginController getUserWatchItems];
     else if(carousel == _carouselMy) return _myItems;
     
     return nil;
@@ -449,7 +449,7 @@
     NSArray *items = [self getCarouselItems:carousel];
     if(!items) return nil;
     NSDictionary *item = [items objectAtIndex:index];
-    NSString *userId = [QSLoginController getUserId];
+    NSString *userId = NULL;//[QSLoginController getUserId];
     NSString *iuserId = [item valueForKey:@"user_id"];
     
     UIView *cell = view;
@@ -583,7 +583,7 @@
 - (IBAction) btnPost:(id) sender
 {
     bool checkUser = true;
-    if(checkUser && ![QSLoginController getUserValidation]) {
+    if(checkUser /*&& ![QSLoginController getUserValidation]*/) {
         [QSUtil showAlert:@"Work email not verified" :@"Please verify your work email or update it on the Settings screen to resend the link"];
         return;
     }
@@ -608,7 +608,7 @@
     NSDictionary *item = (__bridge NSDictionary *)((void *)productImage.tag);
     
     NSString *text = @"Checkout this item on CubeOut!";
-    NSString *linkStr = [NSString stringWithFormat:@"%@?pid=%@", [QSUtil getFEProductLanding],[item valueForKey:@"id"]];
+    NSString *linkStr = NULL;//[NSString stringWithFormat:@"%@?pid=%@", [QSUtil getFEProductLanding],[item valueForKey:@"id"]];
     NSURL *link = [[NSURL alloc] initWithString:linkStr];
     UIImage *image = productImage.image;
     NSArray *activityItems = nil;
@@ -671,11 +671,11 @@
     NSDictionary *item = (__bridge NSDictionary *)((void *)button.tag);
     NSString *pid = [item valueForKey:@"id"];
 
-    if([QSLoginController isInUserWatch:pid]) {
-        [QSLoginController removeUserWatch:pid];
-    } else {
-        [QSLoginController addUserWatch:item];
-    }
+//    if([QSLoginController isInUserWatch:pid]) {
+//        [QSLoginController removeUserWatch:pid];
+//    } else {
+//        [QSLoginController addUserWatch:item];
+//    }
     
     [self setWatchState:button :item];
 }
@@ -684,11 +684,11 @@
 {
     NSString *pid = [item valueForKey:@"id"];
 
-    if([QSLoginController isInUserWatch:pid]) {
-        [button setImage:[UIImage imageNamed:@"liked.png"] forState:UIControlStateNormal];
-    } else {
-        [button setImage:[UIImage imageNamed:@"like.png"] forState:UIControlStateNormal];
-    }
+//    if([QSLoginController isInUserWatch:pid]) {
+//        [button setImage:[UIImage imageNamed:@"liked.png"] forState:UIControlStateNormal];
+//    } else {
+//        [button setImage:[UIImage imageNamed:@"like.png"] forState:UIControlStateNormal];
+//    }
 }
 
 @end

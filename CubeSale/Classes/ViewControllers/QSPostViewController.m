@@ -267,7 +267,7 @@
     int kMaxResolution = 640;
     int kMinResolution = 640;
     
-    NSString *userId = [QSLoginController getUserId];
+    NSString *userId = NULL;//[QSLoginController getUserId];
     
     // create request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];                                    
@@ -320,12 +320,12 @@
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     
     // set URL
-    NSString *apiBase = [QSUtil getApiBase];
+    NSString *apiBase = NULL;//[QSUtil getApiBase];
     NSString *url = [NSString stringWithFormat:@"%@/postListing", apiBase];
     
     _http = [[QSHttpClient alloc] init];
-    _http.disableUI = true;
-    [_http submitRequest:request :url :self :self :@"" :(id)nil];
+//    _http.disableUI = true;
+//    [_http submitRequest:request :url :self :self :@"" :(id)nil];
 }
 
 - (void) addMediaForPost:(NSMutableData *)body :(NSString *)boundary :(int)kMaxResolution :(int)kMinResolution
@@ -376,7 +376,7 @@
 {
     NSLog(@"Submitting sold");
         
-    NSString *userId = [QSLoginController getUserId];
+    NSString *userId = NULL;//[QSLoginController getUserId];
     
     // create request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];                                    
@@ -416,12 +416,12 @@
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     
     // set URL
-    NSString *apiBase = [QSUtil getApiBase];
+    NSString *apiBase = NULL;//[QSUtil getApiBase];
     NSString *url = [NSString stringWithFormat:@"%@/postListing", apiBase];
     
     _http = [[QSHttpClient alloc] init];
-    _http.disableUI = true;
-    [_http submitRequest:request :url :self :self :@"The posting is sold. Go to \"My Listings\" to view the updated status." :(id)nil];
+//    _http.disableUI = true;
+//    [_http submitRequest:request :url :self :self :@"The posting is sold. Go to \"My Listings\" to view the updated status." :(id)nil];
 
 }
 
@@ -429,7 +429,7 @@
 {
     NSLog(@"Submitting delete");
     
-    NSString *userId = [QSLoginController getUserId];
+    NSString *userId = NULL;//[QSLoginController getUserId];
     
     // create request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];                                    
@@ -469,12 +469,12 @@
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     
     // set URL
-    NSString *apiBase = [QSUtil getApiBase];
+    NSString *apiBase = NULL;//[QSUtil getApiBase];
     NSString *url = [NSString stringWithFormat:@"%@/postListing", apiBase];
     
     _http = [[QSHttpClient alloc] init];
-    _http.disableUI = true;
-    [_http submitRequest:request :url :self :self :@"Posting has been deleted." :(id)nil];
+//    _http.disableUI = true;
+//    [_http submitRequest:request :url :self :self :@"Posting has been deleted." :(id)nil];
     
 }
 

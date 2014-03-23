@@ -143,12 +143,12 @@
     [activityIndicator startAnimating];
     activityView.hidden = NO;
     
-    NSString *apiBase = [QSUtil getApiBase];
-    NSString *userId = [QSLoginController getUserId];
+    NSString *apiBase = NULL;//[QSUtil getApiBase];
+    NSString *userId = NULL;//[QSLoginController getUserId];
     NSString *url = [NSString stringWithFormat:@"%@/getUserListings?user_id=%@&filter_type=my", apiBase, userId];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     _http = [[QSHttpClient alloc] init];
-    [_http submitRequest:request :url :self :self :@"" :nil];
+//    [_http submitRequest:request :url :self :self :@"" :nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

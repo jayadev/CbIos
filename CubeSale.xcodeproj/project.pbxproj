@@ -132,6 +132,7 @@
 		E326D4C918D3632E00CBA869 /* QSShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E326D49E18D3632E00CBA869 /* QSShareViewController.m */; };
 		E326D4CA18D3632E00CBA869 /* QSShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E326D49F18D3632E00CBA869 /* QSShareViewController.xib */; };
 		E3AD314E18D603BD0023C497 /* QSDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AD314D18D603BD0023C497 /* QSDataStore.m */; };
+		E3F9DF8F18DF39F400FDD8D9 /* QSUserSession.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F9DF8E18DF39F400FDD8D9 /* QSUserSession.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -308,8 +309,12 @@
 		E326D49D18D3632E00CBA869 /* QSShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSShareViewController.h; sourceTree = "<group>"; };
 		E326D49E18D3632E00CBA869 /* QSShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSShareViewController.m; sourceTree = "<group>"; };
 		E326D49F18D3632E00CBA869 /* QSShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSShareViewController.xib; sourceTree = "<group>"; };
+		E389260B18D6F99B00BDB6A4 /* QSApiConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSApiConstants.h; sourceTree = "<group>"; };
 		E3AD314C18D603BD0023C497 /* QSDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSDataStore.h; sourceTree = "<group>"; };
 		E3AD314D18D603BD0023C497 /* QSDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSDataStore.m; sourceTree = "<group>"; };
+		E3F9DF8C18DF301F00FDD8D9 /* QSUserSessionConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSUserSessionConstants.h; sourceTree = "<group>"; };
+		E3F9DF8D18DF39F400FDD8D9 /* QSUserSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSUserSession.h; sourceTree = "<group>"; };
+		E3F9DF8E18DF39F400FDD8D9 /* QSUserSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSUserSession.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -603,6 +608,7 @@
 		E326D45C18D3632E00CBA869 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				E389260B18D6F99B00BDB6A4 /* QSApiConstants.h */,
 				E326D45D18D3632E00CBA869 /* QSHttpClient.h */,
 				E326D45E18D3632E00CBA869 /* QSHttpClient.m */,
 			);
@@ -616,6 +622,9 @@
 				E326D46118D3632E00CBA869 /* QSUtil.m */,
 				E3AD314C18D603BD0023C497 /* QSDataStore.h */,
 				E3AD314D18D603BD0023C497 /* QSDataStore.m */,
+				E3F9DF8C18DF301F00FDD8D9 /* QSUserSessionConstants.h */,
+				E3F9DF8D18DF39F400FDD8D9 /* QSUserSession.h */,
+				E3F9DF8E18DF39F400FDD8D9 /* QSUserSession.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -820,6 +829,7 @@
 			files = (
 				E326D4C818D3632E00CBA869 /* QSSecondViewController.m in Sources */,
 				C9BB145C14BA724F009D3499 /* main.m in Sources */,
+				E3F9DF8F18DF39F400FDD8D9 /* QSUserSession.m in Sources */,
 				C9BB149D14BA9A27009D3499 /* GMGridView.m in Sources */,
 				C9BB149E14BA9A27009D3499 /* GMGridViewCell.m in Sources */,
 				C9BB149F14BA9A27009D3499 /* GMGridViewLayoutStrategies.m in Sources */,
