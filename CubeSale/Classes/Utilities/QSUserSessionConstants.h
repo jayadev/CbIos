@@ -9,6 +9,8 @@
 #ifndef CubeSale_QSUserSessionConstants_h
 #define CubeSale_QSUserSessionConstants_h
 
+#define KUSER_REGISTERED        @"is_user_regsitered"
+
 #define KUSERINFODICT           @"userinfo_dict"
 
 #define KFBTOKEN                @"token"
@@ -25,5 +27,10 @@
 #define KUSER_COMPANYCODE       @"companyCcode"
 #define KUSER_COMPANYLOCATION   @"location"
 #define KUSER_COMPANYHOBBY      @"hobby"
+
+
+#define KDOWNLOADED_ITEM_IMAGE @"downloaded_item_image"
+#define KDOWNLOADED_USER_IMAGE  @"cahced_item_image"
+
 
 #endif

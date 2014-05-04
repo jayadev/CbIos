@@ -7,9 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "QSUserSessionConstants.h"
 
 @interface QSUserSession : NSObject
 
-@property(nonatomic,strong)NSString* token;
+-(NSString*)getUserToken;
+-(NSString*)getUserId;
+-(NSString*)getUserEmail;
+-(NSString*)getUserFirstName;
+-(NSString*)getUserLastName;
+-(NSString*)getUserImageUrl;
+-(NSString*)getUserProfileUrl;
+-(NSString*)getUserHobby;
+-(NSString*)getUserCompanyEmail;
 
 @end

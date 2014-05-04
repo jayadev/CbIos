@@ -14,20 +14,9 @@
 @implementation QSUtil
 
 #pragma mark -
-#pragma mark Session Util Methods -
-
-+ (QSUserSession*)getUsetSession {
-
-    NSDictionary *userInfoDict = [QSDataStore retrieveObjectForKey:KUSERINFODICT];
-    QSUserSession *userSession = [[QSUserSession alloc] init];
-    userSession.token = [userInfoDict objectForKey:KFBTOKEN];
-    return userSession;
-}
-
-#pragma mark -
 #pragma mark String Util Methods -
 
-+ (NSString*)geteEscapeString:(NSString*)str
++ (NSString*)getEscapeString:(NSString*)str
 {
     return (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef)str, NULL, (CFStringRef)@"!’\"();:@&=+$,/?%#[]% ", kCFStringEncodingUTF8);
 }
@@ -39,7 +28,7 @@
     return ( (!trimStr.length) || [trimStr isEqualToString:@""]);
 }
 + (BOOL)isValidEmailId:(NSString*)emailId {
-    return [self isEmptyString:emailId];
+    return ![self isEmptyString:emailId];
 }
 
 + (void)animateView:(UIView *)view :(int)distance up:(BOOL)up
@@ -183,6 +172,10 @@
 }
 
 + (NSString *)fuzzyTime:(NSString *)datetime {
+
+    if(datetime == NULL){
+        assert(@"datetime string null");
+    }
     
     if([datetime isEqualToString:@""]) return @"a moment ago";
     
@@ -436,6 +429,10 @@ static NSMutableDictionary *countryCodesByName = nil;
 + (NSDictionary *)countryCodesByName
 {
     return countryCodesByName;
+}
++ (NSString *)getFEProductLanding
+{
+    return @"http://www.cubesales.com/item";
 }
 
 @end

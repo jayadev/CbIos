@@ -18,9 +18,10 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    
+
     QSRootViewController *rootViewController = [[QSRootViewController alloc] initWithNibName:@"QSRootViewController" bundle:NULL];
-    self.window.rootViewController = rootViewController;
+    UINavigationController *navcon = [[UINavigationController alloc] initWithRootViewController:rootViewController];
+    self.window.rootViewController = navcon;
     
     [self.window makeKeyAndVisible];
     

@@ -16,9 +16,7 @@
 
 @interface QSUtil : NSObject
 
-+ (QSUserSession*)getUsetSession;
-
-+ (NSString*)geteEscapeString:(NSString*)str;
++ (NSString*)getEscapeString:(NSString*)str;
 + (BOOL)isEmptyString:(NSString*)inputStr;
 + (BOOL)isValidEmailId:(NSString*)emailId;
 
@@ -58,5 +56,7 @@
 + (NSArray *)countryNames;
 + (NSDictionary *)countryNamesByCode;
 + (NSDictionary *)countryCodesByName;
+
++ (NSString *)getFEProductLanding;
 
 @end

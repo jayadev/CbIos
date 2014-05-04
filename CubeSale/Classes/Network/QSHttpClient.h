@@ -10,7 +10,8 @@
 
 typedef enum {
     RequestType_Post,
-    RequestType_Get
+    RequestType_Get,
+    RequestType_Post_Multipart,
 }NetworkRequestType;
 
 @protocol QSHttpClientDelegate;
@@ -22,6 +23,7 @@ typedef enum {
 @property(nonatomic,weak)id<QSHttpClientDelegate> delegate;
 
 -(void)executeNetworkRequest:(NetworkRequestType)requesType WithRelativeUrl:(NSString*)relativeUrlPath parameters:(NSDictionary*)params;
+-(void)executeNetworkRequestWithUrl:(NSString*)urlString;
 - (void) cancelRequest;
 
 @end
