@@ -76,6 +76,7 @@
         self.tfWorkEmail = [[UITextField alloc] initWithFrame:CGRectMake(110, 0, 180, 44)];
         self.tfWorkEmail.placeholder = @"pinky promise we don't spam";
         self.tfWorkEmail.delegate = target;
+        [self.tfWorkEmail setKeyboardType:UIKeyboardTypeEmailAddress];
         [bgView addSubview:self.tfWorkEmail];
     }
     return self;
@@ -153,6 +154,7 @@
         
         self.tfPhoneNUmber = [[UITextField alloc] initWithFrame:CGRectMake(140, 0, 150, 44)];
         self.tfPhoneNUmber.delegate = target;
+        [self.tfPhoneNUmber setKeyboardType:UIKeyboardTypePhonePad];
         [self.contentView addSubview:self.tfPhoneNUmber];
     }
     return self;

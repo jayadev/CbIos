@@ -27,13 +27,14 @@
 
 
 @interface QSListingsViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate,
-                                        QSHttpClientDelegate, QSImageDownloaderDelegate,UIActionSheetDelegate,MFMailComposeViewControllerDelegate>
+                                        QSHttpClientDelegate, QSImageDownloaderDelegate,UIActionSheetDelegate,MFMailComposeViewControllerDelegate, QSPostViewControllerDelegate>
 {
     UICollectionView *listingCollectionView;
     QSProgressView *progressView;
     NSInteger btnActionIndex;
 
     BOOL isRequestInProgress;
+    BOOL loadListing;
 }
 
 @property (nonatomic,strong)QSHttpClient *httpClient;
@@ -127,12 +128,14 @@
     NSLog(@"viewWillAppear");
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
-    [self fetchListingWithProgressView:NO];
+    if(loadListing){
+        [self fetchListingWithProgressView:NO];
+    }
 }
 
 -(void)postItem:(id)sender {
     QSPostViewController *postViewCon = [[QSPostViewController alloc] initWithNibName:@"QSPostViewController" bundle:nil];
-    
+    postViewCon.delegate = self;
     [self.navigationController pushViewController:postViewCon animated:YES];
 }
 
@@ -204,6 +207,7 @@
 }
 - (void) connectionDidFinishWithData:(NSDictionary *)response withError:(NSError*)error {
     isRequestInProgress = FALSE;
+    loadListing = FALSE;
     [progressView stop];
     [progressView removeFromSuperview];
 
@@ -226,7 +230,10 @@
     }
 }
 
-#pragma mark - Table view data source
+#pragma mark - QSPostViewControllerDelegate
+-(void)itemPostedSuccessfully {
+    loadListing = TRUE;
+}
 
 #pragma mark - collectionview datasource / delegate
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section

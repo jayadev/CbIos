@@ -154,7 +154,7 @@ typedef enum {
     [params setObject:price forKey:KAPI_POSTITEM_PRICE];
     [params setObject:[NSString stringWithFormat:@"%d", kMaxResolution] forKey:KAPI_POSTITEM_IMAGESIZE];
     [params setObject:@"0" forKey:KAPI_POSTITEM_STATUS];
-    if(self.self){
+    if(self.selectedImage){
         [params setObject:self.selectedImage forKey:KAPI_POSTITEM_IMAGE];
     }
     if(![QSUtil isEmptyString:tfDescription.text]) {
@@ -232,7 +232,14 @@ typedef enum {
         NSLog(@"RESPONSE:%@",response);
         BOOL status = [[response objectForKey:@"status"] boolValue];
         if(status){
+            if(self.delegate) {
+                [self.delegate itemPostedSuccessfully];
+            }
             [self.navigationController popViewControllerAnimated:YES];
+        }
+        else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error in Posting" message:nil delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil];
+            [alert show];
         }
     }
     else {

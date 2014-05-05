@@ -10,6 +10,17 @@
 
 #import "QSHttpClient.h"
 
+@protocol QSPostViewControllerDelegate;
+
 @interface QSPostViewController : UIViewController<UITextFieldDelegate, QSHttpClientDelegate>
+
+@property(nonatomic,assign)id<QSPostViewControllerDelegate> delegate;
+
+@end
+
+
+@protocol QSPostViewControllerDelegate <NSObject>
+
+-(void)itemPostedSuccessfully;
 
 @end
