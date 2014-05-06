@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -18,7 +18,7 @@
                 <outlet property="commentCancelButton" destination="55" id="57"/>
                 <outlet property="commentField" destination="17" id="58"/>
                 <outlet property="commentProfileImage" destination="15" id="66"/>
-                <outlet property="commentTable" destination="22" id="23"/>
+                <outlet property="commentTable" destination="22" id="4CT-Ku-BJv"/>
                 <outlet property="profileView" destination="102" id="105"/>
                 <outlet property="view" destination="1" id="5"/>
             </connections>

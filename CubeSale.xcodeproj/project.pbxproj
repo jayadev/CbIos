@@ -45,6 +45,7 @@
 		E326D4A018D3632E00CBA869 /* QSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E326D45A18D3632E00CBA869 /* QSAppDelegate.m */; };
 		E326D4A118D3632E00CBA869 /* QSHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E326D45E18D3632E00CBA869 /* QSHttpClient.m */; };
 		E326D4A218D3632E00CBA869 /* QSUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E326D46118D3632E00CBA869 /* QSUtil.m */; };
+		E3297A2619174F6000AA7911 /* QSProductCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3297A2519174F6000AA7911 /* QSProductCommentCell.m */; };
 		E335A4F819100AF80057DF60 /* QSListingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E335A4B619100AF80057DF60 /* QSListingsViewController.m */; };
 		E335A4F919100AF80057DF60 /* QSListingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E335A4B719100AF80057DF60 /* QSListingsViewController.xib */; };
 		E335A51A19100AF80057DF60 /* QSLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = E335A4EC19100AF80057DF60 /* QSLoginController.m */; };
@@ -57,6 +58,13 @@
 		E335A52119100AF80057DF60 /* QSRootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E335A4F719100AF80057DF60 /* QSRootViewController.xib */; };
 		E335A52419100E050057DF60 /* QSListingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E335A52319100E050057DF60 /* QSListingTableViewCell.m */; };
 		E335A9A2191013A10057DF60 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = E335A804191013A00057DF60 /* iCarousel.m */; };
+		E3767FE5191928D900521097 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3767FE4191928D900521097 /* CoreImage.framework */; };
+		E3767FE7191928E700521097 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3767FE6191928E700521097 /* SystemConfiguration.framework */; };
+		E3767FE9191928F500521097 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3767FE8191928F500521097 /* CoreTelephony.framework */; };
+		E3767FEB1919290A00521097 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3767FEA1919290A00521097 /* OpenGLES.framework */; };
+		E3767FED1919291700521097 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3767FEC1919291700521097 /* CoreMotion.framework */; };
+		E3767FF11919298000521097 /* UbertestersSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3767FEF1919298000521097 /* UbertestersSDK.framework */; };
+		E3767FF21919298000521097 /* UbertestersSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3767FF01919298000521097 /* UbertestersSDKResources.bundle */; };
 		E3AD314E18D603BD0023C497 /* QSDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AD314D18D603BD0023C497 /* QSDataStore.m */; };
 		E3F9DF8F18DF39F400FDD8D9 /* QSUserSession.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F9DF8E18DF39F400FDD8D9 /* QSUserSession.m */; };
 /* End PBXBuildFile section */
@@ -114,6 +122,8 @@
 		E326D45E18D3632E00CBA869 /* QSHttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSHttpClient.m; sourceTree = "<group>"; };
 		E326D46018D3632E00CBA869 /* QSUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSUtil.h; sourceTree = "<group>"; };
 		E326D46118D3632E00CBA869 /* QSUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSUtil.m; sourceTree = "<group>"; };
+		E3297A2419174F6000AA7911 /* QSProductCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSProductCommentCell.h; sourceTree = "<group>"; };
+		E3297A2519174F6000AA7911 /* QSProductCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSProductCommentCell.m; sourceTree = "<group>"; };
 		E335A4B519100AF80057DF60 /* QSListingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSListingsViewController.h; sourceTree = "<group>"; };
 		E335A4B619100AF80057DF60 /* QSListingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSListingsViewController.m; sourceTree = "<group>"; };
 		E335A4B719100AF80057DF60 /* QSListingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSListingsViewController.xib; sourceTree = "<group>"; };
@@ -134,6 +144,13 @@
 		E335A52319100E050057DF60 /* QSListingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSListingTableViewCell.m; sourceTree = "<group>"; };
 		E335A803191013A00057DF60 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
 		E335A804191013A00057DF60 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
+		E3767FE4191928D900521097 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		E3767FE6191928E700521097 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		E3767FE8191928F500521097 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		E3767FEA1919290A00521097 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		E3767FEC1919291700521097 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		E3767FEF1919298000521097 /* UbertestersSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UbertestersSDK.framework; sourceTree = "<group>"; };
+		E3767FF01919298000521097 /* UbertestersSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = UbertestersSDKResources.bundle; sourceTree = "<group>"; };
 		E389260B18D6F99B00BDB6A4 /* QSApiConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSApiConstants.h; sourceTree = "<group>"; };
 		E3AD314C18D603BD0023C497 /* QSDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSDataStore.h; sourceTree = "<group>"; };
 		E3AD314D18D603BD0023C497 /* QSDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSDataStore.m; sourceTree = "<group>"; };
@@ -147,15 +164,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3767FED1919291700521097 /* CoreMotion.framework in Frameworks */,
+				E3767FEB1919290A00521097 /* OpenGLES.framework in Frameworks */,
+				C9C0EDA417B20A30001A2967 /* CoreLocation.framework in Frameworks */,
+				E3767FE9191928F500521097 /* CoreTelephony.framework in Frameworks */,
+				E3767FE7191928E700521097 /* SystemConfiguration.framework in Frameworks */,
+				E3767FE5191928D900521097 /* CoreImage.framework in Frameworks */,
 				6961D8301915593200A141D5 /* MessageUI.framework in Frameworks */,
 				C94244A817CC6DA7007F2EF9 /* MapKit.framework in Frameworks */,
-				C9C0EDA417B20A30001A2967 /* CoreLocation.framework in Frameworks */,
 				C9BB145014BA724F009D3499 /* UIKit.framework in Frameworks */,
 				C9BB145214BA724F009D3499 /* Foundation.framework in Frameworks */,
 				C9BB145414BA724F009D3499 /* CoreGraphics.framework in Frameworks */,
 				C9BB14A314BAB3B4009D3499 /* QuartzCore.framework in Frameworks */,
 				C934E27E14C4B52B00B4F792 /* CoreAudio.framework in Frameworks */,
 				C934E27D14C4B52B00B4F792 /* AVFoundation.framework in Frameworks */,
+				E3767FF11919298000521097 /* UbertestersSDK.framework in Frameworks */,
 				D529CC08183C95910063B4D8 /* FacebookSDK.framework in Frameworks */,
 				C9BEBA6C15491DF300783DF7 /* AudioToolbox.framework in Frameworks */,
 				C9A8EE8B15394359003E5EC3 /* MobileCoreServices.framework in Frameworks */,
@@ -190,6 +213,8 @@
 				6961D8381916AA9700A141D5 /* QSProductViewController.h */,
 				6961D8391916AA9700A141D5 /* QSProductViewController.m */,
 				6961D83A1916AA9700A141D5 /* QSProductViewController.xib */,
+				E3297A2419174F6000AA7911 /* QSProductCommentCell.h */,
+				E3297A2519174F6000AA7911 /* QSProductCommentCell.m */,
 				6961D8371916AA9700A141D5 /* QSProductCommentCell.xib */,
 			);
 			path = Buy;
@@ -215,6 +240,11 @@
 		C9BB144E14BA724F009D3499 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E3767FEC1919291700521097 /* CoreMotion.framework */,
+				E3767FEA1919290A00521097 /* OpenGLES.framework */,
+				E3767FE8191928F500521097 /* CoreTelephony.framework */,
+				E3767FE6191928E700521097 /* SystemConfiguration.framework */,
+				E3767FE4191928D900521097 /* CoreImage.framework */,
 				6961D82F1915593100A141D5 /* MessageUI.framework */,
 				D529CC07183C95910063B4D8 /* FacebookSDK.framework */,
 				D529CBBF183C925D0063B4D8 /* libOAuthKit.a */,
@@ -241,6 +271,7 @@
 		C9BB145514BA724F009D3499 /* CubeSale */ = {
 			isa = PBXGroup;
 			children = (
+				E3767FEE1919298000521097 /* UbertestersSDK */,
 				E335A5251910139D0057DF60 /* iCarousel */,
 				E326D45718D3632E00CBA869 /* Classes */,
 				E300404A190ECC58007BAC0E /* Media.xcassets */,
@@ -391,6 +422,15 @@
 			path = iCarousel;
 			sourceTree = "<group>";
 		};
+		E3767FEE1919298000521097 /* UbertestersSDK */ = {
+			isa = PBXGroup;
+			children = (
+				E3767FEF1919298000521097 /* UbertestersSDK.framework */,
+				E3767FF01919298000521097 /* UbertestersSDKResources.bundle */,
+			);
+			path = UbertestersSDK;
+			sourceTree = SOURCE_ROOT;
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -452,6 +492,7 @@
 				E300404B190ECC58007BAC0E /* Media.xcassets in Resources */,
 				E335A51C19100AF80057DF60 /* QSLoginViewController.xib in Resources */,
 				E335A4F919100AF80057DF60 /* QSListingsViewController.xib in Resources */,
+				E3767FF21919298000521097 /* UbertestersSDKResources.bundle in Resources */,
 				6961D83D1916AA9700A141D5 /* QSProductViewController.xib in Resources */,
 				6961D83B1916AA9700A141D5 /* QSProductCommentCell.xib in Resources */,
 				6961D81D1912ACD700A141D5 /* QSPostViewController.xib in Resources */,
@@ -481,6 +522,7 @@
 				E326D4A118D3632E00CBA869 /* QSHttpClient.m in Sources */,
 				6961D8341916618600A141D5 /* QSImagePickerController.m in Sources */,
 				E326D4A018D3632E00CBA869 /* QSAppDelegate.m in Sources */,
+				E3297A2619174F6000AA7911 /* QSProductCommentCell.m in Sources */,
 				E335A51B19100AF80057DF60 /* QSLoginViewController.m in Sources */,
 				E326D4A218D3632E00CBA869 /* QSUtil.m in Sources */,
 				6961D82C19151B7300A141D5 /* QSImageDownloader.m in Sources */,
@@ -579,9 +621,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Sdk Qa (3QBLPUGXX8)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sdk Qa (3QBLPUGXX8)";
-				FRAMEWORK_SEARCH_PATHS = "/Users/ankitjain/Documents/FacebookSDK/**";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ankit Jain (287VG224JS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ankit Jain (287VG224JS)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"/Users/ankitjain/Documents/FacebookSDK/**",
+					"$(PROJECT_DIR)/UbertestersSDK",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CubeSale/CubeSale-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${SRCROOT}/**";
@@ -593,7 +638,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "85FFE8CA-0218-4A1A-B639-048EB114DFB5";
+				PROVISIONING_PROFILE = "DB97E7F4-4571-40DA-9A26-CC88BE83E704";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
@@ -607,9 +652,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Sdk Qa (3QBLPUGXX8)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sdk Qa (3QBLPUGXX8)";
-				FRAMEWORK_SEARCH_PATHS = "/Users/ankitjain/Documents/FacebookSDK/**";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ankit Jain (287VG224JS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ankit Jain (287VG224JS)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"/Users/ankitjain/Documents/FacebookSDK/**",
+					"$(PROJECT_DIR)/UbertestersSDK",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CubeSale/CubeSale-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${SRCROOT}/**";
@@ -621,8 +669,8 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "85FFE8CA-0218-4A1A-B639-048EB114DFB5";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "85FFE8CA-0218-4A1A-B639-048EB114DFB5";
+				PROVISIONING_PROFILE = "DB97E7F4-4571-40DA-9A26-CC88BE83E704";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DB97E7F4-4571-40DA-9A26-CC88BE83E704";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;

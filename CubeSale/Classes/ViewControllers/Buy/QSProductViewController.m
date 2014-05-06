@@ -14,11 +14,13 @@
 #import "QSProductViewController.h"
 #import "QSApiConstants.h"
 #import "QSUserSession.h"
+#import "QSProductCommentCell.h"
 
 
 @interface QSProductViewController () <QSHttpClientDelegate, UIScrollViewDelegate>
 {
     IBOutlet UITableView *commentTable;
+    IBOutlet UIActivityIndicatorView *commentActivity;
 }
 
 
@@ -40,6 +42,7 @@ NSString *escapeString(NSString *str);
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.comments = [NSMutableArray array];
         self.itemInfo = item;
         [self fetchCommentsList];
     }
@@ -64,6 +67,8 @@ NSString *escapeString(NSString *str);
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    commentTable.backgroundColor = [UIColor redColor];
+        //commentTable.frame = CGRectMake(0,200,320,293);
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -107,7 +112,7 @@ NSString *escapeString(NSString *str);
 #pragma mark QHHttpClient Delegate -
 - (void) connectionDidFinishWithData:(NSDictionary *)response withError:(NSError*)error {
     NSLog(@"RESPONSE:%@",response);
-
+    [commentActivity stopAnimating];
     if((response) && (!error)) {
         BOOL status = [[response objectForKey:@"status"] boolValue];
         if(status){
@@ -214,8 +219,9 @@ NSString *escapeString(NSString *str);
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-	NSUInteger newLength = textField.text.length + string.length - range.length;
-	return (newLength > 100) ? NO : YES;
+    return 60;
+//	NSUInteger newLength = textField.text.length + string.length - range.length;
+//	return (newLength > 100) ? NO : YES;
 }
 
 #pragma mark -
@@ -228,31 +234,14 @@ NSString *escapeString(NSString *str);
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *cellIdentifier = @"CommentCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    QSProductCommentCell *cell = (QSProductCommentCell*)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
-        [[NSBundle mainBundle] loadNibNamed:@"QSProductCommentCell" owner:self options:nil];        
-        cell = self.commentCell;
+        cell = [[QSProductCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        
     }
-    
-    self.commentCell = nil;
-    
-    NSUInteger row = [indexPath row];
-    NSDictionary *comment = [comments objectAtIndex:row];
-
-    UILabel *nameLabel = (UILabel *)[cell viewWithTag:1];
-    nameLabel.text = [comment valueForKey:@"username"];
-    UILabel *timeLabel = (UILabel *)[cell viewWithTag:2];
-    [QSUtil updateProductTimeCell:comment :timeLabel];
-    QSLazyImage *cImage = (QSLazyImage *)[cell viewWithTag:3];
-    cImage.image = [UIImage imageNamed:@"photo.png"];
-    [QSUtil updateProfileImageCell:comment :cImage];
-    UILabel *commentLabel = (UILabel *)[cell viewWithTag:4];
-    NSObject *commentString = [comment valueForKey:@"comment"];
-    if(commentString && ([NSNull null] != commentString)) {
-        commentLabel.text = (NSString *)commentString;
-    } else {
-        commentLabel.text = @"";    
-    }
+        //cell.textLabel.text = @"421342121122e1";
+   NSDictionary *commentdict = [comments objectAtIndex:indexPath.row];
+   [cell setCommentsFromDictionary:commentdict];
     
     return cell;
 }

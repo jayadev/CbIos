@@ -10,12 +10,16 @@
 #import "QSRootViewController.h"
 
 #import <FacebookSDK/FacebookSDK.h>
+#import <UbertestersSDK/Ubertesters.h>
+
 
 @implementation QSAppDelegate
 @synthesize window = _window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[Ubertesters shared] initialize];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
 

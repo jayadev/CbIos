@@ -21,6 +21,7 @@
 #import <MFMailComposeViewController.h>
 #import "QSPostViewController.h"
 #import "QSProductViewController.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 
 //http://cubesales.com/api/v2/getUserListings?user_id=608151843&filter_type=mycmpl&_token=CAAHmj2KnaRsBAFwEjtPFfh9XXtsaq7w6QVkLx4Fe0nkFdZCUGZANUFTC9n85tltyZAZAO7aix5Skqhx6Fs5uNfSYgXrAZBrTuLEk72qHJxpzNbgMMvCldV0gfzFhVze3sH6BuNdLZBoWMM58cAZA8bnCGLZBmUihwfq0CQRsAjkZAP6ZAtoza7ZA3Q9qN05ZCInx0mXkUFtzjzbbUT4WZBaWgygQa
@@ -339,7 +340,16 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 
     if(buttonIndex == 0) {//Facebook
-
+                          //NSURL* url = [NSURL URLWithString:@"https://developers.facebook.com/"];
+        BOOL session = [FBSession activeSession];
+        [FBDialogs presentOSIntegratedShareDialogModallyFrom:self
+                                                 initialText:@"Test"
+                                                       image:nil
+                                                         url:nil
+                                                     handler:^(FBOSIntegratedShareDialogResult result, NSError *error) {
+                                                         
+                                                         NSLog(@"error:%@",error);
+                                      }];
     }
     else if(buttonIndex == 1) {
         NSDictionary *dict = [listings objectAtIndex:btnActionIndex];

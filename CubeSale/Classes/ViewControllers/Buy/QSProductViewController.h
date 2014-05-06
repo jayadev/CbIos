@@ -30,9 +30,6 @@
 @property (nonatomic, strong) IBOutlet UIImageView *cellBubble;
 @property (nonatomic, strong) IBOutlet UIButton *cellFullExit;
 
-//@property (nonatomic, strong) IBOutlet UITableView *commentTable;
-@property (nonatomic, assign) IBOutlet UITableViewCell *commentCell;
-
 @property (nonatomic, strong) IBOutlet UIButton *playButton;
 @property (nonatomic, strong) IBOutlet UIButton *pauseButton;
 @property (nonatomic, strong) IBOutlet UIProgressView *playProgress;
@@ -40,7 +37,7 @@
 @property (nonatomic, strong) IBOutlet QSLazyImage *commentProfileImage;
 @property (nonatomic, strong) IBOutlet UITextField *commentField;
 @property (nonatomic, strong) IBOutlet UIButton *commentCancelButton;
-@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *commentActivity;
+
 
 @property (nonatomic, strong) IBOutlet UIView *descView;
 @property (nonatomic, strong) IBOutlet UIView *profileView;
