@@ -340,12 +340,15 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 
     if(buttonIndex == 0) {//Facebook
-                          //NSURL* url = [NSURL URLWithString:@"https://developers.facebook.com/"];
-        BOOL session = [FBSession activeSession];
+        
+        NSDictionary *dict = [listings objectAtIndex:btnActionIndex];
+        NSString *text = @"Checkout this item on CubeOut!";
+        NSString *linkStr = [NSString stringWithFormat:@"%@\n%@?pid=%@",text, [QSUtil getFEProductLanding],[dict valueForKey:@"id"]];
+        UIImage *image = [downloadImages objectForKey:[dict objectForKey:KAPI_ITEM_IMAGE_URL]];
         [FBDialogs presentOSIntegratedShareDialogModallyFrom:self
-                                                 initialText:@"Test"
-                                                       image:nil
-                                                         url:nil
+                                                 initialText:text
+                                                       image:image
+                                                         url:[NSURL URLWithString:linkStr]
                                                      handler:^(FBOSIntegratedShareDialogResult result, NSError *error) {
                                                          
                                                          NSLog(@"error:%@",error);
