@@ -75,6 +75,7 @@ NSString *escapeString(NSString *str);
 {
     [super viewDidLoad];
         // Do any additional setup after loading the view from its nib.
+    self.title = @"Ask to Buy";
     [commentTable registerNib:[UINib nibWithNibName:@"QSProductCommentCell" bundle:nil] forCellReuseIdentifier:@"CommentCell"];
     _cellProductImage.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[itemInfo objectForKey:@"photo_url_small"]]]];
 }
