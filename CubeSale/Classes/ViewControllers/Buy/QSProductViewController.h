@@ -16,8 +16,8 @@
 
 
 
-@property (nonatomic, strong) IBOutlet QSLazyImage *cellProductImage;
-@property (nonatomic, strong) IBOutlet QSLazyImage *cellProfileImage;
+@property (nonatomic, strong) IBOutlet UIImageView *cellProductImage;
+@property (nonatomic, strong) IBOutlet UIImageView *cellProfileImage;
 @property (nonatomic, strong) IBOutlet UILabel *cellPrice;
 @property (nonatomic, strong) IBOutlet UIImageView *cellPriceImage;
 @property (nonatomic, strong) IBOutlet UILabel *cellTime;

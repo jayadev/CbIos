@@ -45,6 +45,14 @@ NSString *escapeString(NSString *str);
         self.comments = [NSMutableArray array];
         self.itemInfo = item;
         [self fetchCommentsList];
+            //mtime
+            //username
+            //city
+            //img_url
+            //price
+            //title
+            //photo_url_small
+            //photo_url
     }
     return self;
 }
@@ -63,11 +71,19 @@ NSString *escapeString(NSString *str);
 }
 
 #pragma mark - View lifecycle
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+        // Do any additional setup after loading the view from its nib.
+    [commentTable registerNib:[UINib nibWithNibName:@"QSProductCommentCell" bundle:nil] forCellReuseIdentifier:@"CommentCell"];
+    _cellProductImage.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[itemInfo objectForKey:@"photo_url_small"]]]];
+}
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    commentTable.backgroundColor = [UIColor redColor];
+        //commentTable.backgroundColor = [UIColor redColor];
+    
         //commentTable.frame = CGRectMake(0,200,320,293);
 }
 
@@ -79,12 +95,6 @@ NSString *escapeString(NSString *str);
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (void)viewDidUnload
@@ -236,12 +246,13 @@ NSString *escapeString(NSString *str);
     static NSString *cellIdentifier = @"CommentCell";
     QSProductCommentCell *cell = (QSProductCommentCell*)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
+        
         cell = [[QSProductCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         
     }
         //cell.textLabel.text = @"421342121122e1";
-   NSDictionary *commentdict = [comments objectAtIndex:indexPath.row];
-   [cell setCommentsFromDictionary:commentdict];
+    NSDictionary *commentdict = [comments objectAtIndex:indexPath.row];
+    [cell setCommentsFromDictionary:commentdict];
     
     return cell;
 }

@@ -47,11 +47,12 @@
 }
 
 -(void)setCommentsFromDictionary:(NSDictionary*)commentDict {
+    
     NSString *userName = [commentDict objectForKey:@"username"];
     if(![QSUtil isEmptyString:userName]) {
         nameLabel.text = userName;
     } else {
-        nameLabel.text = @"";
+        nameLabel.text = @"empty";
     }
     
     NSString *time = [commentDict objectForKey:@"mtime"];

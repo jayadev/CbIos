@@ -36,7 +36,7 @@
         //self.itemPriceLabel.backgroundColor = [UIColor redColor];
         [self addSubview:self.itemPriceLabel];
 
-        self.itemPriceImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width - 70, 4, 44, 44)];
+        self.itemPriceImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width - 55, 10, 28, 28)];
         //self.itemPriceImageView.backgroundColor = [UIColor redColor];
         //self.itemPriceImageView.image = [UIImage imageNamed:@"tag_free"];
         [self addSubview:self.itemPriceImageView];
@@ -188,18 +188,22 @@
     if(![self isEmptyStr:price]) {
         if([price isEqualToString:@"free"]) {
             headerView.itemPriceImageView.hidden = NO;
-            headerView.itemPriceLabel.hidden = YES;
+            headerView.itemPriceLabel.hidden = NO;
             headerView.itemPriceImageView.image = [UIImage imageNamed:@"tag_free.png"];
+            headerView.itemPriceLabel.frame = CGRectMake(self.frame.size.width - 95, 15, 100, 20);
         }
         else if([price isEqualToString:@"coffee"]) {
             headerView.itemPriceImageView.hidden = NO;
-            headerView.itemPriceLabel.hidden = YES;
+            headerView.itemPriceLabel.hidden = NO;
             headerView.itemPriceImageView.image = [UIImage imageNamed:@"tag_coffee.png"];
+            headerView.itemPriceLabel.text = [NSString stringWithFormat:@"Buy for"];
+            headerView.itemPriceLabel.frame = CGRectMake(self.frame.size.width - 95, 15, 100, 20);
         }
         else if([price isEqualToString:@"lunch"]) {
             headerView.itemPriceImageView.hidden = NO;
-            headerView.itemPriceLabel.hidden = YES;
+            headerView.itemPriceLabel.hidden = NO;
             headerView.itemPriceImageView.image = [UIImage imageNamed:@"tag_lunch.png"];
+            headerView.itemPriceLabel.frame = CGRectMake(self.frame.size.width - 95, 15, 100, 20);
         }
         else {
             headerView.itemPriceImageView.hidden = YES;
