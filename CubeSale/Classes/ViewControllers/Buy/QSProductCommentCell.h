@@ -11,5 +11,6 @@
 @interface QSProductCommentCell : UITableViewCell
 
 -(void)setCommentsFromDictionary:(NSDictionary*)commentDict;
+-(void)setItemImage:(UIImage*)itemImage;
 
 @end

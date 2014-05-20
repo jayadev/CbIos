@@ -52,7 +52,7 @@
     if(![QSUtil isEmptyString:userName]) {
         nameLabel.text = userName;
     } else {
-        nameLabel.text = @"empty";
+        nameLabel.text = @"";
     }
     
     NSString *time = [commentDict objectForKey:@"mtime"];
@@ -67,6 +67,15 @@
         commentLabel.text = comment;
     } else {
         commentLabel.text = @"";
+    }
+}
+
+-(void)setItemImage:(UIImage*)itemImage {
+    if(itemImage){
+        cImage.image = itemImage;
+    }
+    else {
+        cImage.image = [UIImage imageNamed:@"listings_noimage"];;
     }
 }
 @end

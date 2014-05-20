@@ -13,12 +13,13 @@
                 <outlet property="cellPriceImage" destination="96" id="97"/>
                 <outlet property="cellProductImage" destination="4" id="48"/>
                 <outlet property="cellProfileImage" destination="32" id="49"/>
-                <outlet property="cellTime" destination="34" id="51"/>
+                <outlet property="cellTime" destination="34" id="pgc-BH-tUE"/>
                 <outlet property="commentActivity" destination="64" id="65"/>
                 <outlet property="commentCancelButton" destination="55" id="57"/>
                 <outlet property="commentField" destination="17" id="58"/>
                 <outlet property="commentProfileImage" destination="15" id="66"/>
                 <outlet property="commentTable" destination="22" id="4CT-Ku-BJv"/>
+                <outlet property="exitFullScreenBtn" destination="chu-A6-COJ" id="HR2-1S-dR6"/>
                 <outlet property="profileView" destination="102" id="105"/>
                 <outlet property="view" destination="1" id="5"/>
             </connections>
@@ -40,7 +41,7 @@
                             <rect key="frame" x="13" y="0.0" width="295" height="108"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="photo" id="32" customClass="QSLazyImage">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="photo" id="32">
                                     <rect key="frame" x="10" y="20" width="36" height="36"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
@@ -94,12 +95,7 @@
                                     <rect key="frame" x="55" y="63" width="27" height="25"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="product_noimage" id="63">
-                                    <rect key="frame" x="195" y="7" width="90" height="90"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                </imageView>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" id="4" customClass="QSLazyImage">
+                                <imageView clipsSubviews="YES" contentMode="scaleAspectFill" image="product_noimage" id="4">
                                     <rect key="frame" x="195" y="7" width="90" height="90"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -107,6 +103,7 @@
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="67">
                                     <rect key="frame" x="195" y="7" width="90" height="90"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="1" green="0.80000001192092896" blue="0.40000000596046448" alpha="0.0" colorSpace="calibratedRGB"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal">
                                         <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -116,7 +113,7 @@
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
-                                        <action selector="btnFullScreen:" destination="-1" eventType="touchUpInside" id="69"/>
+                                        <action selector="btnFullScreen:" destination="-1" eventType="touchUpInside" id="GFL-o9-VAD"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -178,6 +175,17 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="color" red="0.0" green="0.41240875910000002" blue="0.55839416060000002" alpha="1" colorSpace="calibratedRGB"/>
                 </activityIndicatorView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="chu-A6-COJ">
+                    <rect key="frame" x="5" y="49" width="315" height="470"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="btnFullScreenExit:" destination="-1" eventType="touchUpInside" id="sVF-0H-0RE"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>

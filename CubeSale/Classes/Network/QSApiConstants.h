@@ -22,6 +22,7 @@
 
 #pragma mark BUY ITEM API -
 #define QS_API_BUY @"/getComments"
+#define QS_API_ADDCOMMENT @"/addComment"
 
 #pragma mark API Keys -
 #define KAPI_USERID @"user_id"
@@ -35,6 +36,7 @@
 #define KAPI_POSTITEM_STATUS @"posting_status"
 #define KAPI_POSTITEM_IMAGE     @"posting_image"
 #define KAPI_POSTITEM_PRODUCTID    @"prod_id"
+#define KAPI_ITEM_ADDCOMMENT    @"comment"
 #define KAPI_POSTITEM_ID    @"id"
 
 

@@ -15,15 +15,31 @@
 #import "QSApiConstants.h"
 #import "QSUserSession.h"
 #import "QSProductCommentCell.h"
+#import "QSImageDownloader.h"
 
-
-@interface QSProductViewController () <QSHttpClientDelegate, UIScrollViewDelegate>
+@interface QSProductViewController () <QSHttpClientDelegate, UIScrollViewDelegate, QSImageDownloaderDelegate>
 {
     IBOutlet UITableView *commentTable;
     IBOutlet UIActivityIndicatorView *commentActivity;
+    IBOutlet UIImageView *cellProductImage;
+    IBOutlet UIImageView *cellProfileImage;
+    IBOutlet UILabel *cellPrice;
+    IBOutlet UIImageView *cellPriceImage;
+    IBOutlet UILabel *cellTime;
+    IBOutlet UILabel *cellName;
+    IBOutlet UILabel *cellLocation;
+    
+    IBOutlet UITextField *commentField;
+    
+    IBOutlet UIButton *exitFullScreenBtn;
+    UIScrollView *cellFullView;
+    UIImageView *cellFullImageView;
+    
+    BOOL isCommentFetchRequest;
 }
 
-
+@property(nonatomic,strong) NSMutableDictionary *imageDownloadsInProgress;
+@property(nonatomic,strong) NSMutableDictionary *downloadImages;
 @property(nonatomic,strong)NSMutableArray *comments;
 @property(nonatomic,strong)NSDictionary *itemInfo;
 @property(nonatomic,strong)QSHttpClient *httpClient;
@@ -34,8 +50,7 @@ NSString *escapeString(NSString *str);
 
 @implementation QSProductViewController
 
-@synthesize itemInfo, comments;
-
+@synthesize itemInfo, comments, downloadImages, imageDownloadsInProgress;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil withProductInfo:(NSDictionary*)item
 {
@@ -44,15 +59,15 @@ NSString *escapeString(NSString *str);
         // Custom initialization
         self.comments = [NSMutableArray array];
         self.itemInfo = item;
+        self.imageDownloadsInProgress = [NSMutableDictionary dictionary];
+        self.downloadImages = [NSMutableDictionary dictionary];
         [self fetchCommentsList];
-            //mtime
-            //username
-            //city
-            //img_url
-            //price
-            //title
-            //photo_url_small
-            //photo_url
+        
+        cellFullView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+        cellFullView.delegate = self;
+        cellFullImageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+        cellFullImageView.backgroundColor = [UIColor darkGrayColor];
+        [self performSelectorInBackground:@selector(loadFullScrennProductImage) withObject:nil];
     }
     return self;
 }
@@ -76,16 +91,20 @@ NSString *escapeString(NSString *str);
     [super viewDidLoad];
         // Do any additional setup after loading the view from its nib.
     self.title = @"Ask to Buy";
+    exitFullScreenBtn.hidden = YES;
+    
+    [self updateUIFromItemDictionary];
+    
+    [self performSelectorInBackground:@selector(loadProductImage) withObject:nil];
+    [self performSelectorInBackground:@selector(loadProfileImage) withObject:nil];
+    
+    
     [commentTable registerNib:[UINib nibWithNibName:@"QSProductCommentCell" bundle:nil] forCellReuseIdentifier:@"CommentCell"];
-    _cellProductImage.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[itemInfo objectForKey:@"photo_url_small"]]]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-        //commentTable.backgroundColor = [UIColor redColor];
-    
-        //commentTable.frame = CGRectMake(0,200,320,293);
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -96,6 +115,12 @@ NSString *escapeString(NSString *str);
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    
+    if(self.httpClient){
+        [self.httpClient cancelRequest];
+        self.httpClient.delegate = self;
+        self.httpClient = nil;
+    }
 }
 
 - (void)viewDidUnload
@@ -105,8 +130,48 @@ NSString *escapeString(NSString *str);
     // e.g. self.myOutlet = nil;
 }
 
--(void)fetchCommentsList {
+-(void)updateUIFromItemDictionary {
+    cellName.text = [self getValidItemValue:[self.itemInfo objectForKey:@"username"]];
+    cellPrice.text = [self getValidItemValue:[self.itemInfo objectForKey:@"price"]];
+    cellTime.text = [QSUtil fuzzyTime:[self.itemInfo objectForKey:@"mtime"]];
+    cellLocation.text = [self getValidItemValue:[self.itemInfo objectForKey:@"city"]];
+}
 
+-(NSString*)getValidItemValue:(NSString*)info {
+    if(![QSUtil isEmptyString:info]) {
+        return info;
+    } else {
+        return @"";
+    }
+}
+-(void)loadFullScrennProductImage {
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[itemInfo objectForKey:@"photo_url"]]]];
+    [self performSelectorOnMainThread:@selector(setFullScreenProductImage:) withObject:image waitUntilDone:NO];
+}
+-(void)setFullScreenProductImage:(UIImage*)image {
+    cellFullImageView.image = image;
+}
+-(void)loadProductImage {
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[itemInfo objectForKey:@"photo_url_small"]]]];
+    [self performSelectorOnMainThread:@selector(setProductImage:) withObject:image waitUntilDone:NO];
+}
+-(void)setProductImage:(UIImage*)image {
+    cellProductImage.image = image;
+}
+
+-(void)loadProfileImage {
+    
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[itemInfo objectForKey:@"img_url"]]]];
+    
+    [self performSelectorOnMainThread:@selector(setProfileImage:) withObject:image waitUntilDone:NO];
+}
+-(void)setProfileImage:(UIImage*)image {
+    cellProfileImage.image = image;
+}
+
+-(void)fetchCommentsList {
+    isCommentFetchRequest = TRUE;
+    
     if(!self.httpClient){
         self.httpClient = [[QSHttpClient alloc] init];
         self.httpClient.delegate = self;
@@ -119,18 +184,49 @@ NSString *escapeString(NSString *str);
     [dict setObject:productId forKey:KAPI_POSTITEM_PRODUCTID];
     [self.httpClient executeNetworkRequest:RequestType_Get WithRelativeUrl:QS_API_BUY parameters:dict];
 }
+-(void)addComment:(NSString*)commentStr {
+    isCommentFetchRequest = FALSE;
+    
+    if(!self.httpClient){
+        self.httpClient = [[QSHttpClient alloc] init];
+        self.httpClient.delegate = self;
+    }
+    
+    QSUserSession *session = [[QSUserSession alloc] init];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setObject:[session getUserId] forKey:KAPI_USERID];
+    
+    NSString *productId = [itemInfo objectForKey:KAPI_POSTITEM_ID];
+    [dict setObject:productId forKey:KAPI_POSTITEM_PRODUCTID];
+    
+    [dict setObject:commentStr forKey:KAPI_ITEM_ADDCOMMENT];
+    
+    [self.httpClient executeNetworkRequest:RequestType_Post WithRelativeUrl:QS_API_ADDCOMMENT parameters:dict];
+    
+    [commentActivity startAnimating];
+}
 
 #pragma mark QHHttpClient Delegate -
 - (void) connectionDidFinishWithData:(NSDictionary *)response withError:(NSError*)error {
     NSLog(@"RESPONSE:%@",response);
     [commentActivity stopAnimating];
+    
     if((response) && (!error)) {
         BOOL status = [[response objectForKey:@"status"] boolValue];
-        if(status){
-            [comments removeAllObjects];
-            [comments addObjectsFromArray:[response objectForKey:@"response_data"]];
-            [commentTable reloadData];
+        if(isCommentFetchRequest) {
+            if(status){
+                [comments removeAllObjects];
+                [comments addObjectsFromArray:[response objectForKey:@"response_data"]];
+                [commentTable reloadData];
+            }
         }
+        else {
+            if(status){
+                [self fetchCommentsList];
+            }
+        }
+        
+        
     }
 }
 
@@ -138,43 +234,36 @@ NSString *escapeString(NSString *str);
 
 - (IBAction) btnFullScreen:(id) sender
 {
-    //cellFullImageView.image = cellProductImage.image;
-//    cellFullView.zoomScale = 1.0;
-//    cellFullView.alpha = 0.0;
-//    cellFullView.hidden = NO;
-//    cellFullExit.hidden = NO;
-//    
-//    [UIView beginAnimations:@"fade in" context:nil];
-//    [UIView setAnimationDuration:0.5];
-//    cellFullView.alpha = 1.0;
-//    [UIView commitAnimations];
+    [self.view addSubview:cellFullView];
+    [cellFullView addSubview:cellFullImageView];
+    
+    [self.view bringSubviewToFront:exitFullScreenBtn];
+    exitFullScreenBtn.hidden = NO;
+    
+    cellFullView.zoomScale = 1.0;
+    cellFullView.alpha = 0.0;
+    [UIView setAnimationDuration:0.5];
+    
+    [UIView beginAnimations:@"fade in" context:nil];
+
+    cellFullView.alpha = 1.0;
+    [UIView commitAnimations];
 }
 
 - (IBAction) btnFullScreenExit:(id) sender
 {
-//    cellFullExit.hidden = YES;
-//    cellFullView.hidden = YES;
+    [cellFullView removeFromSuperview];
+    [cellFullImageView removeFromSuperview];
+    
+    exitFullScreenBtn.hidden = YES;
 }
 
-
--(IBAction) btnDone:(id) sender
-{
-//    if(_httpComments) {
-//        [_httpComments cancelRequest];
-//        _httpComments = nil;
-//    }
-//    if(_httpNewComment) {
-//        [_httpNewComment cancelRequest];
-//        _httpNewComment = nil;
-//    }
-
-   // [self.navigationController popViewControllerAnimated:YES];
-}
 
 - (IBAction) btnCancelComment:(id) sender
 {
     NSLog(@"Post cancelled");
-    //[commentField resignFirstResponder];
+    commentField.text = @"";
+    [commentField resignFirstResponder];
 }
 
 #pragma mark UITextFieldDelegate
@@ -185,33 +274,9 @@ NSString *escapeString(NSString *str);
     
     if([textField.text isEqualToString:@""]) return YES;
     
+    [self addComment:textField.text];
+    commentField.text = @"";
     // create request
-//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];                                    
-//    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
-//    [request setHTTPShouldHandleCookies:NO];
-//    [request setTimeoutInterval:30];
-//    [request setHTTPMethod:@"POST"];
-//    
-//    NSString *userId = [QSLoginController getUserId];
-//    NSString *sbody = [NSString stringWithFormat:
-//                     @"user_id=%@&prod_id=%@&comment=%@", 
-//                     escapeString(userId), escapeString(_pid),
-//                     escapeString(textField.text)];
-//    NSLog(@"comment body: %@", sbody);
-//
-//    NSData *body = [sbody dataUsingEncoding:NSUTF8StringEncoding];
-//    [request setHTTPBody:body];
-//    NSString *postLength = [NSString stringWithFormat:@"%d", [body length]];
-//    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-//    
-//    NSString *apiBase = [QSUtil getApiBase];
-//    NSString *url = [NSString stringWithFormat:@"%@/addComment", apiBase];
-//    
-//    _httpNewComment = [[QSHttpClient alloc] init];
-//    _httpNewComment.disableUI = true;
-//    [_httpNewComment submitRequest:request :url :self :self :@"" :@"add"];
-//    
-//    [commentActivity startAnimating]; 
 
 	return YES;
 }
@@ -231,8 +296,6 @@ NSString *escapeString(NSString *str);
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     return 60;
-//	NSUInteger newLength = textField.text.length + string.length - range.length;
-//	return (newLength > 100) ? NO : YES;
 }
 
 #pragma mark -
@@ -249,11 +312,22 @@ NSString *escapeString(NSString *str);
     if (cell == nil) {
         
         cell = [[QSProductCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
     }
-        //cell.textLabel.text = @"421342121122e1";
     NSDictionary *commentdict = [comments objectAtIndex:indexPath.row];
     [cell setCommentsFromDictionary:commentdict];
+        //NSLog(@"tableView cellForRowAtIndexPath");
+    NSString *imageUrl = [commentdict objectForKey:KAPI_USER_IMAGE_URL];
+    UIImage *itemImage = [downloadImages objectForKey:imageUrl];
+    if(itemImage){
+        [cell setItemImage:itemImage];
+    }
+    else {
+        [cell setItemImage:nil];
+        
+        [self startIconDownloadWithUrl:imageUrl];
+    }
     
     return cell;
 }
@@ -263,8 +337,42 @@ NSString *escapeString(NSString *str);
 }
 
 
-//- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
-//    return cellFullImageView;
-//}
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+    return cellFullImageView;
+}
+
+- (void)startIconDownloadWithUrl:(NSString*)imageDownloadUrl
+{
+    NSLog(@"startIconDownloadWithUrl:%@",imageDownloadUrl);
+    if(![QSUtil isEmptyString:imageDownloadUrl]) {
+        QSImageDownloader *imageDownloader = [self.imageDownloadsInProgress objectForKey:imageDownloadUrl];
+        if (imageDownloader == nil)
+        {
+            imageDownloader = [[QSImageDownloader alloc] init];
+            imageDownloader.imageDownloadUrl = imageDownloadUrl;
+            imageDownloader.delegate = self;
+            [self.imageDownloadsInProgress setObject:imageDownloader forKey:imageDownloadUrl];
+            [imageDownloader startDownload];
+        }
+    }
+}
+
+
+#pragma mark - Table view delegate
+-(void)imageDownload:(QSImageDownloader*)imageDownloader finishImageLoading:(UIImage *)image {
+    NSLog(@"imageDownload---finishImageLoading");
+    NSString *key = imageDownloader.imageDownloadUrl;
+    [downloadImages setObject:image forKey:key];
+    imageDownloader.delegate = nil;
+    [self.imageDownloadsInProgress removeObjectForKey:key];
+    [commentTable reloadData];
+}
+
+-(void)imageDownload:(QSImageDownloader*)imageDownloader failWithError:(NSError *)error {
+    NSString *key = imageDownloader.imageDownloadUrl;
+    imageDownloader.delegate = nil;
+    [self.imageDownloadsInProgress removeObjectForKey:key];
+}
+
 
 @end

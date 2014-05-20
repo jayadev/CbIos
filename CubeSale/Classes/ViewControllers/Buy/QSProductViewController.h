@@ -15,27 +15,8 @@
 }
 
 
-
-@property (nonatomic, strong) IBOutlet UIImageView *cellProductImage;
-@property (nonatomic, strong) IBOutlet UIImageView *cellProfileImage;
-@property (nonatomic, strong) IBOutlet UILabel *cellPrice;
-@property (nonatomic, strong) IBOutlet UIImageView *cellPriceImage;
-@property (nonatomic, strong) IBOutlet UILabel *cellTime;
-@property (nonatomic, strong) IBOutlet UILabel *cellName;
-@property (nonatomic, strong) IBOutlet UILabel *cellLocation;
-@property (nonatomic, strong) IBOutlet UIButton *cellWatch;
-@property (nonatomic, strong) IBOutlet UIScrollView *cellFullView;
-@property (nonatomic, strong) IBOutlet QSLazyImage *cellFullImageView;
-@property (nonatomic, strong) IBOutlet UILabel *cellDescription;
-@property (nonatomic, strong) IBOutlet UIImageView *cellBubble;
-@property (nonatomic, strong) IBOutlet UIButton *cellFullExit;
-
-@property (nonatomic, strong) IBOutlet UIButton *playButton;
-@property (nonatomic, strong) IBOutlet UIButton *pauseButton;
-@property (nonatomic, strong) IBOutlet UIProgressView *playProgress;
-
 @property (nonatomic, strong) IBOutlet QSLazyImage *commentProfileImage;
-@property (nonatomic, strong) IBOutlet UITextField *commentField;
+
 @property (nonatomic, strong) IBOutlet UIButton *commentCancelButton;
 
 
