@@ -75,10 +75,9 @@ typedef enum {
 {
     [super viewDidLoad];
     self.navigationController.navigationBarHidden = YES;
-    scrollView.frame = self.view.bounds;
+   
     NSLog(@"____1111:%@",NSStringFromCGRect(scrollView.frame));
     scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, 1100);
-   // scrollView.scrollEnabled = NO;
 }
 
 - (void)viewDidUnload

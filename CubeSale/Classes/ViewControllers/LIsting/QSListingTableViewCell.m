@@ -277,7 +277,6 @@
     else {
         self.headerView.userImageView.image = [UIImage imageNamed:@"photo"];
     }
-
 }
 -(void)setBtnTarget:(id)target withSel:(SEL)selector withTagIndex:(NSInteger)index{
     [footerView.askBtn addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];

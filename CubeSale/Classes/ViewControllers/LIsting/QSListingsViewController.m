@@ -66,8 +66,10 @@
         [flowLayout setMinimumLineSpacing:10];
         [flowLayout setSectionInset:UIEdgeInsetsMake(10,10,10,10)];
 
-        listingCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds
-                                                 collectionViewLayout:flowLayout];
+        CGRect rect = self.view.bounds;
+        CGRect collectionViewRect = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height-74);
+        listingCollectionView = [[UICollectionView alloc] initWithFrame:collectionViewRect
+                                                   collectionViewLayout:flowLayout];
         [listingCollectionView setBackgroundColor:[UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1]];
         [listingCollectionView registerNib:[UINib nibWithNibName:@"View" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"Type1Cell"];
         listingCollectionView.showsVerticalScrollIndicator = YES;
